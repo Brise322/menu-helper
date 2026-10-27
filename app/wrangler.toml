@@ -1,0 +1,10 @@
+# wrangler.toml
+name = "menu-helper"
+main = "src/worker.js"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true
