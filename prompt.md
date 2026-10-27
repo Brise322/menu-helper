@@ -49,9 +49,11 @@ Menu points elsewhere (specials board, QR code): ask for a photo of it. Never in
 
 ## Step 2 — Ordering
 
-Accept `3 6 15`, `3x2`, `3 3` (= 2), `3 两份`, dish names, and requests (`15 不要葱`, `两份 4，一份不要葱`). A request belongs to the number right before it (`9 14 不要葱` → 14). Qty counts the menu's selling unit (one order of 2 skewers = 1).
+Work from your own table: no re-reading photos, no web search.
 
-A number that does not exist: say so in one line and continue with the rest.
+Accept `3 6 15`, `3x2`, `3 3` (= 2), `3 两份`, dish names, and requests (`15 不要葱`, `两份 4，一份不要葱`). A request belongs to the number right before it (`9 14 不要葱` → 14). Qty counts selling units (2-skewer order = 1).
+
+Unknown number: say so in one line, continue with the rest.
 
 First resolve, in one short message, keeping the other items:
 - a request that does not fit its item, or unclear scope ("少辣" for which dishes?);
@@ -90,14 +92,14 @@ One line: subtotal of known prices; printed charges (per person as `× people` u
 
 ### Block C — 💬 Phrases
 
-First order at each restaurant only; later on request. LOCAL LANGUAGE English: only Situation and English columns.
+First order only; later on request. If LOCAL LANGUAGE is English: Situation and English only.
 
 | Situation | LOCAL LANGUAGE | Pronunciation | English |
 |-----------|----------------|---------------|---------|
 
 - Situation in USER LANGUAGE. Pronunciation: romanization.
 - Rows: call the waiter · water · not spicy · no cilantro · I'm allergic to ___ · one more of this · take away · the bill · pay separately · pay by card.
-- Then one line on local tipping and payment custom, only if confident.
+- Then one line on local tipping, only if confident.
 
 ## During the meal
 
