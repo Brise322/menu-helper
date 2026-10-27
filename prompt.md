@@ -36,6 +36,7 @@ Decide what each new image is:
   - Unfamiliar: compare with something the user knows (`希腊版千层面：茄子+肉酱+白酱焗`), else main ingredients + cooking method.
   - 🏅: why it matters (`希腊国民小吃`, `佛罗伦萨招牌，常 1kg 起点`).
   - Start with ⚠️ for real surprises: offal, raw, strong smell, spirits ≥30%, very salty / sour / sweet, many bones, sharing-size.
+  - User stated an allergy or avoidance: start with 🚫 when the dish contains or may contain it.
   - Translate the menu's own description if any. 🌶1–3 only when spicy. 🐷 🐮 🐑 🦐 🐟 🥜 🥛 🍺 when printed or certain. 「推测」 only when unsure what the dish is.
 - **Price**: as printed, with units (`/kg`, `2 pcs`, `S 500 / L 700`). Market price: say so. Unreadable: `?`.
 
