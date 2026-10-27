@@ -17,8 +17,6 @@ const item = z.object({
     .describe("Unique number within the restaurant; printed number when unique, else 1…N in reading order"),
   code: z.string().optional()
     .describe("Number as printed on the menu, only if printed"),
-  name: z.string()
-    .describe("Natural translation in USER LANGUAGE of what the dish is; must agree with desc. Never guess from a similar-looking word; unsure → transliterate"),
   original: z.string()
     .describe("As printed, without a printed option list (\"Burger (frites ou salade)\" → \"Burger\"); the options go in options"),
   desc: z.string().optional()
@@ -26,6 +24,8 @@ const item = z.object({
       + "Empty when obvious (fries, cola). Unfamiliar dish: compare with something familiar (Okonomiyaki → 像日式蔬菜煎饼). "
       + "Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 + reason only when it contains or may contain a stated allergen; no allergy, cross-contact or ask-the-staff text on any other item. "
       + "🌶1–3 only when spicy. 「推测」 only when unsure."),
+  name: z.string()
+    .describe("Natural translation in USER LANGUAGE, written after desc and naming the same dish. Never guess from a similar-looking word; unsure → transliterate"),
   tag: z.enum(["must", "star"]).optional()
     .describe("must = 🏅 one of 3–5 dishes on this menu the region is famous for; star = marked by the menu"),
   price: z.string()
