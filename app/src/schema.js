@@ -14,6 +14,7 @@ const request = option.extend({
 
 const extra = option.extend({
   group: z.string().optional().describe("Same group = pick at most one, e.g. doneness"),
+  printed: z.boolean().optional().describe("true when this choice is printed on the menu (supplément, sauce choice); omit for usual requests like doneness"),
 });
 
 const item = z.object({

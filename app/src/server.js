@@ -6,7 +6,7 @@ import { menuShape } from "./schema.js";
 import { cleanAllergyText } from "./allergy.js";
 
 // 组件 URI 是宿主的缓存键，组件或参数有不兼容改动时递增版本号
-export const WIDGET_URI = "ui://menu-helper/menu-v10.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v11.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 // 宿主可能仍缓存旧版本的 URI，旧版本统一返回当前组件

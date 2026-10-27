@@ -11,7 +11,7 @@ const TEXT = {
     placedBtn: "服务员已记下", placedLine: (n, sum) => `已下单 ${n} 项 · ${sum}`, bill: "结账卡片",
     portion: (i) => `第 ${i} 份`, split: "+ 另一份不同要求",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "必尝", loadingMore: "正在整理…", choices: "可选", needs: "需选", picked: "你勾选的菜品有：", ordered: "已点的菜品：", priceNote: "金额仅供参考，具体以菜单和账单为准",
+    mustTry: "必尝", loadingMore: "正在整理…", choices: "可选", needs: "需选", requestsBtn: "额外需求", picked: "你勾选的菜品有：", ordered: "已点的菜品：", priceNote: "金额仅供参考，具体以菜单和账单为准",
   },
   en: {
     required: "Required", optional: "Optional", pick: "Choose",
@@ -21,7 +21,7 @@ const TEXT = {
     placedBtn: "Waiter has it", placedLine: (n, sum) => `Ordered ${n} · ${sum}`, bill: "Bill card",
     portion: (i) => `Portion ${i}`, split: "+ Another with different requests",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "Must-try", loadingMore: "Loading…", choices: "Options", needs: "Choose", picked: "Your picks:", ordered: "Ordered:", priceNote: "Amounts are estimates; the menu and bill prevail.",
+    mustTry: "Must-try", loadingMore: "Loading…", choices: "Options", needs: "Choose", requestsBtn: "Requests", picked: "Your picks:", ordered: "Ordered:", priceNote: "Amounts are estimates; the menu and bill prevail.",
   },
   ja: {
     required: "必須", optional: "任意", pick: "選んでください",
@@ -31,7 +31,7 @@ const TEXT = {
     placedBtn: "店員さんに伝えた", placedLine: (n, sum) => `注文済み ${n} 品 · ${sum}`, bill: "会計カード",
     portion: (i) => `${i} つ目`, split: "+ 別の要望でもう一つ",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "名物", loadingMore: "整理中…", choices: "選べる", needs: "要選択", picked: "選んだ料理：", ordered: "注文済みの料理：", priceNote: "金額は目安です。メニューと会計を優先してください。",
+    mustTry: "名物", loadingMore: "整理中…", choices: "選べる", needs: "要選択", requestsBtn: "リクエスト", picked: "選んだ料理：", ordered: "注文済みの料理：", priceNote: "金額は目安です。メニューと会計を優先してください。",
   },
   ko: {
     required: "필수", optional: "선택", pick: "골라 주세요",
@@ -41,7 +41,7 @@ const TEXT = {
     placedBtn: "직원이 받아 적음", placedLine: (n, sum) => `주문 ${n}개 · ${sum}`, bill: "계산 카드",
     portion: (i) => `${i}번째`, split: "+ 다른 요청으로 하나 더",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", choices: "선택 가능", needs: "필수 선택", picked: "선택한 메뉴:", ordered: "주문한 메뉴:", priceNote: "금액은 참고용이며 메뉴판과 계산서가 기준입니다.",
+    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", choices: "선택 가능", needs: "필수 선택", requestsBtn: "요청사항", picked: "선택한 메뉴:", ordered: "주문한 메뉴:", priceNote: "금액은 참고용이며 메뉴판과 계산서가 기준입니다.",
   },
 };
 
@@ -463,14 +463,14 @@ function requestsFor(item) {
     .filter((request) => !own.has(request.label));
 }
 
-/** 菜名下的选项提示：必选显示「需选」，否则列出前几个可选项；点击加入并展开选项 */
+/** 菜名下的选项按钮：菜单要求必选为「需选」，菜单印有选项为「可选」，其余为「额外需求」；点击加入并展开选项 */
 function choiceHint(item) {
-  const required = item.options?.length > 0;
-  const list = required ? item.options : item.extras || [];
-  if (!list.length) return "";
-  const shown = list.slice(0, 3).map((o) => escapeHtml(o.label)).join(required ? " / " : " · ");
-  const more = list.length > 3 ? " …" : "";
-  return `<button class="hint ${required ? "hint-need" : ""}" data-opts="${item.n}">${required ? T.needs : T.choices}：${shown}${more} ›</button>`;
+  let label, cls = "";
+  if (item.options?.length) { label = T.needs; cls = "hint-need"; }
+  else if (item.extras?.some((e) => e.printed)) label = T.choices;
+  else if (item.extras?.length || requestsFor(item).length) label = T.requestsBtn;
+  else return "";
+  return `<button class="hint ${cls}" data-opts="${item.n}">${label} ›</button>`;
 }
 
 /** 展开面板：每份一行，含必选、可选、通用要求 */
@@ -494,7 +494,7 @@ function optionsPanel(item) {
       html += `<div class="chips"><span class="lab need-lab">${T.required}</span>${chips(item.options, (i) => line.opt === i, "opt")}</div>`;
     }
     if (item.extras?.length) {
-      html += `<div class="chips"><span class="lab">${T.optional}</span>${chips(item.extras, (i) => (line.ext || []).includes(i), "ext")}</div>`;
+      html += `<div class="chips"><span class="lab">${item.extras.some((e) => e.printed) ? T.optional : T.requestsBtn}</span>${chips(item.extras, (i) => (line.ext || []).includes(i), "ext")}</div>`;
     }
     if (requests.length) {
       html += `<div class="chips">${chips(requests, (i) => line.reqs.includes(i), "req", "req")}</div>`;
