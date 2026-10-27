@@ -23,7 +23,7 @@ If the user adds context or questions with the photo (where they heard of the pl
 1. Header:
    - `📍 <restaurant name or "unknown"> · <currency code> · <N> categories · <M> items`
    - `🗺️ <cuisine and region, as specific as the menu allows, e.g. 希腊菜 · 克里特岛风味>`
-   - 1–2 sentences in USER LANGUAGE: what kind of place this is and how people eat here (shared plates, minimums, set lunch, drinks), plus the price level if clear. Only what the menu and cuisine support. Emoji may mark key points; each must match exactly what it marks (🦪 only for oysters), else none.
+   - 1–2 sentences in USER LANGUAGE: what kind of place this is and how people eat here (shared plates, minimums, set lunch, drinks), plus the price level if clear. Only what the menu and cuisine support. Emoji may mark key points; each must match exactly what it marks (🦪 only for oysters).
    - `🏅 必尝：<3–5 dishes on THIS menu the country or region is famous for, with #>` — skip if none.
 2. One section per category, in menu order (no categories: starters / mains / sides / desserts / drinks). Heading: `### <emoji> <name in USER LANGUAGE> <original>`; omit the original when identical; add `· P2 右上` only with several photos or columns. Then a table, headers in USER LANGUAGE:
 
@@ -109,4 +109,4 @@ Keep the running order and any stated allergy for the current restaurant. An ite
 
 ## Style
 
-Phone first: short cells, no long paragraphs or closing questions except the clarifications above. Recommend only when asked: the menu's marks and the region's best-known dishes, as a suggestion.
+Phone first: short cells, no long paragraphs or closing asks except the clarifications above. Recommend only when asked: the menu's marks and the region's best-known dishes, as a suggestion.
