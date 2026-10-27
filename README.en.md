@@ -67,7 +67,7 @@ You get a confirmation list in your language with prices and a rough conversion 
 
 The card is written in the local language only, so the waiter can read it at a glance. **Allergies or things you avoid**: mention them with the photo ("allergic to peanuts", "no pork"). Dishes that may contain them get 🚫 in the menu table, and the waiter card opens with your allergy in the local language and asks the kitchen to check.
 
-Below the card is a phrase table: call the waiter, water, not spicy, allergies, take-away, the bill, pay separately, pay by card. Each phrase comes with pronunciation, and a last line covers local tipping customs.
+Below the card is a phrase table: call the waiter, water, not spicy, allergies, take-away, the bill, pay separately, pay by card. Non-Latin scripts (Japanese, Thai, Greek…) get romanization, and a last line covers local tipping customs.
 
 **④ During the meal**
 - Add more: `add 8` gives a card for the new items only.
