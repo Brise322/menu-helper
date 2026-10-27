@@ -52,7 +52,7 @@ export function createServer(widgetHtml) {
       description: "Shows the full translated menu as an interactive list. The user taps + / − to order and gets a waiter card in the local language. "
         + "Call after reading menu photos, with every item, cuisine, intro, 3–5 mustTry numbers, and an emoji and course per category. "
         + "After it returns, write at most two lines: ⚠️ unreadable parts only if any, then an invitation to ask follow-up questions "
-        + "with 2–3 concrete examples from this menu. Never report what you did or count items or pages.",
+        + "with 2–3 concrete examples about this menu or restaurant. Never report what you did or count items or pages.",
       inputSchema: menuShape,
       annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
       _meta: {
