@@ -54,4 +54,4 @@ npx wrangler deploy                       # 部署
 
 wrangler 需要 Node.js 22 及以上。域名验证码存放在 Cloudflare secret `OPENAI_APPS_CHALLENGE`。
 
-修改组件或 `show_menu` 参数且不兼容旧版本时，递增 `server.js` 里 `WIDGET_URI` 的版本号，并在 ChatGPT 插件页刷新。
+修改组件或 `show_menu` 参数且不兼容旧版本时，递增 `server.js` 里 `WIDGET_URI` 的版本号，并在 ChatGPT 插件页刷新。旧版本 URI 仍可读取，返回当前组件。

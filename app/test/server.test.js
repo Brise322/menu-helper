@@ -86,3 +86,12 @@ test("未说明过敏时不改描述", async () => {
   const result = await client.callTool({ name: "show_menu", arguments: menu });
   assert.equal(result.structuredContent.categories[0].items[0].desc, "Check the daily special.");
 });
+
+test("旧版本组件 URI 返回当前组件", async () => {
+  const client = await connect();
+  for (const uri of ["ui://menu-helper/menu-v4.html", "ui://menu-helper/menu-v5.html"]) {
+    const { contents } = await client.readResource({ uri });
+    assert.equal(contents[0].uri, uri);
+    assert.equal(contents[0].text, widget);
+  }
+});
