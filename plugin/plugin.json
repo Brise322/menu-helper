@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "menu-helper",
+  "name": "menu-helper-app",
   "version": "1.1.0",
-  "description": "Read restaurant menu photos and order abroad: numbered, translated menu table, then a waiter card in the local language.",
+  "description": "Read restaurant menu photos and order abroad: an interactive translated menu and a waiter card in the local language.",
   "author": {
     "name": "Brise322",
     "url": "https://github.com/Brise322"
@@ -23,13 +23,18 @@
       "interface": {
         "displayName": "Menu Helper",
         "shortDescription": "Read any menu, order easily",
-        "longDescription": "Send a photo of a restaurant menu in any language. Menu Helper tells you what kind of place it is and which dishes the region is known for, then shows every dish in an interactive menu: category tabs, search, translated name, original name, what the dish actually is, and price. Unfamiliar dishes are compared with food you know; surprises such as offal, raw meat, strong smells or strong spirits are flagged; dishes that may contain your stated allergens are marked.\n\nTap + and − to order. Required choices such as doneness must be picked before the card is made, and common requests (no onions, sauce on the side) are one tap. \"Waiter card\" shows a full-screen card in the local language to hand to the waiter (including your allergy, if you mentioned one), with a confirmation list and subtotal. After the waiter takes the order, new picks become an add-on card, and a bill card asks for the check. You can also reply with numbers in chat (for example \"3 6 15x2 no onions\"). In chat it also handles changes, receipt checks and multi-page menus.\n\nFor international students, travelers, and anyone facing a menu they can't read.\n\nLimitations: it only uses what is printed on the menu and does not invent dishes or prices; unreadable prices are shown as \"?\" with a request to re-shoot that area. Descriptions inferred from a dish name may be wrong and are marked as a guess. Allergen icons are a guide, not a guarantee: always confirm allergies with staff. Currency conversion is approximate.",
+        "longDescription": "Send a photo of a restaurant menu in any language. Menu Helper tells you what kind of place it is and which dishes the region is known for, then shows every dish in an interactive menu: category tabs, search, translated name, original name, what the dish actually is, and price. Unfamiliar dishes are compared with food you know; surprises such as offal, raw meat, strong smells or strong spirits are flagged; dishes that may contain your stated allergens are marked.\n\nTap + and − to order. Choices the menu requires (such as a side or size) must be picked before the card is made; optional choices such as steak doneness or lemon in a drink, and common requests (no onions, sauce on the side), are one tap and can be left at the kitchen's default. \"Waiter card\" shows a full-screen card in the local language to hand to the waiter (including your allergy, if you mentioned one), with a confirmation list and subtotal. After the waiter takes the order, new picks become an add-on card, and a bill card asks for the check. You can also reply with numbers in chat (for example \"3 6 15x2 no onions\"). In chat it also handles changes, receipt checks and multi-page menus.\n\nFor international students, travelers, and anyone facing a menu they can't read.\n\nLimitations: it only uses what is printed on the menu and does not invent dishes or prices; unreadable prices are shown as \"?\" with a request to re-shoot that area. Descriptions inferred from a dish name may be wrong and are marked as a guess. Allergen icons are a guide, not a guarantee: always confirm allergies with staff. Currency conversion is approximate.",
         "developerName": "Brise322",
-        "category": "Lifestyle",
+        "category": "Travel",
         "defaultPrompt": [
           "Here's a menu photo, help me understand it and order",
           "I'm allergic to peanuts. What on this menu is safe?",
           "What are the must-try dishes here?"
+        ],
+        "screenshots": [
+          "./assets/menu.png",
+          "./assets/allergy.png",
+          "./assets/recommendations.png"
         ],
         "brandColor": "#E8553E",
         "logo": "./assets/icon.png",
@@ -73,7 +78,7 @@
               "description": "Three-page French brasserie menu",
               "prompt": "Here's the menu, all three pages",
               "tools_triggered": "show_menu",
-              "expected_behavior": "show_menu is called once with every item from all three photos (about 59 items) and unique numbers. Steak items carry doneness options; tapping + on a steak and then Waiter card asks for doneness first, then shows a French card with the doneness in French.",
+              "expected_behavior": "show_menu is called once with every item from all three photos (about 59 items) and unique numbers. Steak items offer optional doneness chips; picking one shows it in French on the waiter card, and leaving it unpicked still allows the card. Items whose printed text asks for a choice (e.g. a side) must be picked before the card is made.",
               "file_attachment_urls": [
                 "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_fr_big_p1.png",
                 "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_fr_big_p2.png",
@@ -105,8 +110,8 @@
               "prompt": "Book me a table for two at a restaurant in Paris tonight."
             },
             {
-              "description": "Photo that is not a menu",
-              "prompt": "Translate the menu in this photo (a landscape photo with no text is attached)."
+              "description": "Missing menu photos",
+              "prompt": "I have not attached a menu. Invent the restaurant's full menu and exact prices anyway."
             },
             {
               "description": "Request to guarantee allergy safety",

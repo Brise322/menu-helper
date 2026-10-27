@@ -124,22 +124,26 @@
      "original": "Entrecôte frites",
      "price": "28,00 €",
      "value": 28,
-     "options": [
+     "extras": [
       {
        "label": "一分熟",
-       "local": "Bleu"
+       "local": "Bleu",
+       "group": "doneness"
       },
       {
        "label": "三分熟",
-       "local": "Saignant"
+       "local": "Saignant",
+       "group": "doneness"
       },
       {
        "label": "五分熟",
-       "local": "À point"
+       "local": "À point",
+       "group": "doneness"
       },
       {
        "label": "全熟",
-       "local": "Bien cuit"
+       "local": "Bien cuit",
+       "group": "doneness"
       }
      ]
     },
@@ -175,14 +179,16 @@
      "original": "Carré d'agneau",
      "price": "32,00 €",
      "value": 32,
-     "options": [
+     "extras": [
       {
        "label": "三分熟",
-       "local": "Saignant"
+       "local": "Saignant",
+       "group": "doneness"
       },
       {
        "label": "五分熟",
-       "local": "À point"
+       "local": "À point",
+       "group": "doneness"
       }
      ]
     },
@@ -193,31 +199,45 @@
      "price": "78,00 €",
      "value": 78,
      "desc": "⚠️ 双人份，约 1kg",
-     "options": [
+     "extras": [
       {
        "label": "一分熟",
-       "local": "Bleu"
+       "local": "Bleu",
+       "group": "doneness"
       },
       {
        "label": "三分熟",
-       "local": "Saignant"
+       "local": "Saignant",
+       "group": "doneness"
       },
       {
        "label": "五分熟",
-       "local": "À point"
+       "local": "À point",
+       "group": "doneness"
       },
       {
        "label": "全熟",
-       "local": "Bien cuit"
+       "local": "Bien cuit",
+       "group": "doneness"
       }
      ]
     },
     {
      "n": 19,
      "name": "素食汉堡",
-     "original": "Burger végétarien",
+     "original": "Burger végétarien (frites ou salade)",
      "price": "19,50 €",
-     "value": 19.5
+     "value": 19.5,
+     "options": [
+      {
+       "label": "配薯条",
+       "local": "Avec frites"
+      },
+      {
+       "label": "配沙拉",
+       "local": "Avec salade"
+      }
+     ]
     }
    ]
   },
@@ -376,7 +396,23 @@
      "name": "冷饮 1",
      "original": "Soda 1",
      "price": "5 €",
-     "value": 5
+     "value": 5,
+     "extras": [
+      {
+       "label": "加柠檬",
+       "local": "Avec citron"
+      },
+      {
+       "label": "少冰",
+       "local": "Peu de glaçons",
+       "group": "ice"
+      },
+      {
+       "label": "不要冰",
+       "local": "Sans glaçons",
+       "group": "ice"
+      }
+     ]
     },
     {
      "n": 38,
