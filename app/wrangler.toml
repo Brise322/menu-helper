@@ -1,10 +1,11 @@
-# wrangler.toml
+# wrangler.toml — Cloudflare Workers 配置
 name = "menu-helper"
 main = "src/worker.js"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
 
+# 组件三个文件按文本导入，由 bundle.js 拼成单文件
 [[rules]]
 type = "Text"
-globs = ["**/*.html"]
-fallthrough = true
+globs = ["**/*.html", "**/*.css", "**/widget-app.js"]
+fallthrough = false

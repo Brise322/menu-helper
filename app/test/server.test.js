@@ -1,49 +1,61 @@
-// server.test.js
+// server.test.js — MCP 服务端与组件打包测试
+
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createServer, WIDGET_URI, WIDGET_MIME } from "../src/server.js";
+import { bundleWidget } from "../src/bundle.js";
 
-const html = readFileSync(new URL("../src/widget.html", import.meta.url), "utf8");
-const sample = JSON.parse(readFileSync(new URL("../dev/sample.json", import.meta.url), "utf8"));
+const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
+const widget = bundleWidget(read("../src/widget.html"), read("../src/widget.css"), read("../src/widget-app.js"));
+const sample = JSON.parse(read("../dev/sample.json"));
 
 async function connect() {
-  const [a, b] = InMemoryTransport.createLinkedPair();
-  await createServer(html).connect(a);
-  const client = new Client({ name: "t", version: "0" });
-  await client.connect(b);
+  const [serverSide, clientSide] = InMemoryTransport.createLinkedPair();
+  await createServer(widget).connect(serverSide);
+  const client = new Client({ name: "test", version: "0" });
+  await client.connect(clientSide);
   return client;
 }
 
-test("show_menu 带组件模板", async () => {
-  const c = await connect();
-  const { tools } = await c.listTools();
-  const t = tools.find((x) => x.name === "show_menu");
-  assert.ok(t);
-  assert.equal(t._meta.ui.resourceUri, WIDGET_URI);
-  assert.equal(t._meta["openai/outputTemplate"], WIDGET_URI);
-  assert.ok(c.getInstructions().includes("show_menu"));
+test("组件打包后不再引用外部文件", () => {
+  assert.ok(widget.includes("<style>") && widget.includes("ui/initialize"));
+  assert.ok(!widget.includes('href="widget.css"') && !widget.includes('src="widget-app.js"'));
 });
 
-test("show_menu 原样返回菜单", async () => {
-  const c = await connect();
-  const r = await c.callTool({ name: "show_menu", arguments: sample });
-  assert.equal(r.isError, undefined);
-  assert.equal(r.structuredContent.categories.length, sample.categories.length);
-  assert.match(r.content[0].text, /Do not summarize/);
+test("缺少引用时打包报错", () => {
+  assert.throws(() => bundleWidget("<html></html>", "", ""));
 });
 
-test("缺字段报错", async () => {
-  const c = await connect();
-  const r = await c.callTool({ name: "show_menu", arguments: { restaurant: "x" } });
-  assert.equal(r.isError, true);
+test("show_menu 关联组件模板，服务端带说明", async () => {
+  const client = await connect();
+  const { tools } = await client.listTools();
+  const tool = tools.find((t) => t.name === "show_menu");
+  assert.ok(tool);
+  assert.equal(tool._meta.ui.resourceUri, WIDGET_URI);
+  assert.equal(tool._meta["openai/outputTemplate"], WIDGET_URI);
+  assert.ok(client.getInstructions().includes("show_menu"));
 });
 
-test("组件资源可读", async () => {
-  const c = await connect();
-  const r = await c.readResource({ uri: WIDGET_URI });
-  assert.equal(r.contents[0].mimeType, WIDGET_MIME);
-  assert.ok(r.contents[0].text.includes("ui/initialize"));
+test("show_menu 原样返回菜单并提示模型不要复述", async () => {
+  const client = await connect();
+  const result = await client.callTool({ name: "show_menu", arguments: sample });
+  assert.equal(result.isError, undefined);
+  assert.equal(result.structuredContent.categories.length, sample.categories.length);
+  assert.match(result.content[0].text, /Do not summarize/);
+});
+
+test("缺少必填字段时报错", async () => {
+  const client = await connect();
+  const result = await client.callTool({ name: "show_menu", arguments: { restaurant: "x" } });
+  assert.equal(result.isError, true);
+});
+
+test("组件资源返回内联后的 HTML", async () => {
+  const client = await connect();
+  const { contents } = await client.readResource({ uri: WIDGET_URI });
+  assert.equal(contents[0].mimeType, WIDGET_MIME);
+  assert.equal(contents[0].text, widget);
 });
