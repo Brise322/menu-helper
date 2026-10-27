@@ -3,7 +3,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-export const WIDGET_URI = "ui://menu-helper/menu-v1.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v2.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 export const INSTRUCTIONS = `Menu Helper: the user sends restaurant menu photos and orders from an interactive menu.
@@ -16,7 +16,7 @@ When the user sends menu photos:
    - \`🏅 必尝：<3–5 dishes on this menu the region is famous for, with #>\` — skip if none.
    - If the user sent context or questions with the photo, answer briefly first.
 2. Then call show_menu once with EVERY item on every photo. Do not write the menu table in chat.
-3. After the tool, one line: tap + to pick, tap the card button to show the waiter; allergies or needs can be told in chat.
+3. After the tool, write exactly one line: \`点 + 选菜，选好点「生成卡片」给服务员看；有过敏或忌口直接告诉我\` (in USER LANGUAGE). Nothing else: no page breakdown, no item counts, no summary of the widget, no mention of earlier restaurants or tests.
 
 More photos of the same restaurant: call show_menu again with the full merged menu, keeping numbers. A different restaurant: start over.
 User states an allergy or avoidance: call show_menu again with 🚫 on affected items and card.allergy set.
@@ -100,7 +100,7 @@ export function createServer(widgetHtml) {
     async (menu) => {
       const count = menu.categories.reduce((s, c) => s + c.items.length, 0);
       return {
-        content: [{ type: "text", text: `Menu shown: ${menu.restaurant}, ${count} items. The user orders in the widget.` }],
+        content: [{ type: "text", text: `The interactive menu (${count} items) is now visible to the user. Do not summarize, list or describe it. Reply with one short line telling the user to tap + and then the card button, and that allergies can be told in chat.` }],
         structuredContent: menu,
       };
     },

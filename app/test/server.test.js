@@ -32,7 +32,7 @@ test("show_menu 原样返回菜单", async () => {
   const r = await c.callTool({ name: "show_menu", arguments: sample });
   assert.equal(r.isError, undefined);
   assert.equal(r.structuredContent.categories.length, sample.categories.length);
-  assert.match(r.content[0].text, /items/);
+  assert.match(r.content[0].text, /Do not summarize/);
 });
 
 test("缺字段报错", async () => {

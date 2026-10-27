@@ -185,13 +185,15 @@ let query = "";
 const open = new Set();
 let view = "menu";   // menu | card | bill
 
+// 状态按菜单指纹存取，换菜单不会带入旧选择
+const menuKey = () => `${menu.restaurant}|${byN.size}|${[...byN.keys()].join(",")}`;
 function saveState() {
-  try { window.openai?.setWidgetState?.({ lines, placed, round }); } catch {}
+  try { window.openai?.setWidgetState?.({ key: menuKey(), lines, placed, round }); } catch {}
 }
 function restoreState() {
   try {
     const s = window.openai?.widgetState;
-    if (s && Array.isArray(s.lines)) { lines = s.lines; placed = s.placed || []; round = s.round || 0; }
+    if (s && s.key === menuKey() && Array.isArray(s.lines)) { lines = s.lines; placed = s.placed || []; round = s.round || 0; }
   } catch {}
 }
 
@@ -201,11 +203,11 @@ function load(data) {
   const sig = JSON.stringify(data);
   if (sig === loadedSig) return;
   loadedSig = sig;
-  const same = menu && menu.restaurant === data.restaurant;
+  const oldKey = menu ? menuKey() : "";
   menu = data;
   byN = new Map();
-  for (const c of menu.categories) for (const it of c.items) byN.set(it.n, it);
-  if (!same) { lines = []; placed = []; round = 0; tab = 0; restoreState(); }
+  for (const c of menu.categories) for (const it of c.items) if (it && typeof it.n === "number") byN.set(it.n, it);
+  if (menuKey() !== oldKey) { lines = []; placed = []; round = 0; tab = 0; open.clear(); restoreState(); }
   lines = lines.filter((l) => byN.has(l.n));
   $("loading").classList.add("hidden");
   view = "menu";
