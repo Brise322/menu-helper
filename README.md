@@ -83,7 +83,7 @@
 **最简单**：复制 [`prompt.md`](prompt.md) 全文，粘贴到 ChatGPT、Gemini 或豆包的新对话里发出去，然后发菜单照片。
 
 **长期用**：
-- **ChatGPT**：新建一个 GPT，把 `prompt.md` 全文粘贴进"说明"（约 7500 字符，上限 8000）。
+- **ChatGPT**：新建一个 GPT，把 `prompt.md` 全文粘贴进"说明"（不到 8000 字符，正好在上限内）。
 - **Gemini**：新建一个 Gem，同样粘贴。
 - **Claude**：把 `SKILL.md` 和 `prompt.md` 放进一个叫 `menu-helper` 的文件夹，压缩成 zip（zip 里顶层是 `menu-helper/`）。在设置里打开 Code execution，然后在 Customize → Skills 上传。
 

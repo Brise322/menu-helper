@@ -81,7 +81,7 @@ Below the card is a phrase table: call the waiter, water, not spicy, allergies, 
 **Quickest:** copy all of [`prompt.md`](prompt.md), paste it into a new ChatGPT / Gemini chat, then send a menu photo.
 
 **Keep it:**
-- **ChatGPT**: create a GPT and paste `prompt.md` into Instructions (~7,500 characters, under the 8,000 limit).
+- **ChatGPT**: create a GPT and paste `prompt.md` into Instructions (just under the 8,000-character limit).
 - **Gemini**: create a Gem and paste it the same way.
 - **Claude**: put `SKILL.md` and `prompt.md` in a folder named `menu-helper` and zip it so the zip's top level is `menu-helper/`. Turn on Code execution in Settings, then upload it under Customize → Skills.
 

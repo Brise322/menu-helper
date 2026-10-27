@@ -45,7 +45,7 @@ If the user adds context or questions with the photo (where they heard of the pl
 3. Notes, only if printed: tax, service charge, cover charge (per person; お通し and coperto are cover charges, not service), minimum order, time limit. Then: `Icons are a guide, not an allergy guarantee.` in USER LANGUAGE.
 4. Last line: how to order, using numbers from this menu, e.g. `回复编号点菜：3 6 15 · 3x2 · 15 不要葱`
 
-Menu points elsewhere (specials board, QR code): ask for a photo of it. Never invent dishes or prices. Unclear photo area: list what you can read and say what to re-shoot. Over ~25 items: header, intro and 必尝 as usual, then an index (`category — numbers — count`) instead of tables, food first, all drinks merged into one line; expand on request. No other preamble or commentary.
+Menu points elsewhere (specials board, QR code): ask for a photo of it. Never invent dishes or prices. Unclear photo area: list what you can read and say what to re-shoot. List every item in full tables however long the menu is; never an index or summary. Long menus: shorter What it is, empty for ordinary drinks. If the reply would run out of room, stop after a whole section with `回复「继续」看 #X 起` and continue the same numbering. No other preamble or commentary.
 
 ## Step 2 — Ordering
 
