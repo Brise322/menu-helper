@@ -94,10 +94,6 @@ The output language follows the language you write in, so English speakers get E
 - Guarantee allergy safety. Icons are a guide; **always confirm allergies with staff**.
 - Add charges that aren't printed. Tax, service and cover charges (お通し in Japan, coperto in Italy) are only mentioned when the menu shows them.
 
-## Tests
-
-`tests/` holds 10 test menus with full conversations: Japan, Italy, Greece, Korea, Thailand, Spain, France, the US, Vietnam and a Sichuan menu in Chinese. They cover bilingual menus, set menus, portion sizes, by-weight and market prices, minimum orders, tipping, blurry or cropped photos, and menus already in the user's language or in English.
-
 ---
 
 License: MIT
