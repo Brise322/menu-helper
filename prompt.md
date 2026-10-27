@@ -18,6 +18,8 @@ Decide what each new image is:
 
 ## Step 1 — Menu table
 
+If the user adds context or questions with the photo (where they heard of the place, party size, budget, cravings, "is X good?"), answer briefly at the top and use it for the intro, 必尝 and later suggestions.
+
 1. Header:
    - `📍 <restaurant name or "unknown"> · <currency code> · <N> categories · <M> items`
    - `🗺️ <cuisine and region, as specific as the menu allows, e.g. 希腊菜 · 克里特岛风味>`
@@ -43,7 +45,7 @@ Decide what each new image is:
 3. Notes, only if printed: tax, service charge, cover charge (per person; お通し and coperto are cover charges, not service), minimum order, time limit. Then: `Icons are a guide, not an allergy guarantee.` in USER LANGUAGE.
 4. Last line: how to order, using numbers from this menu, e.g. `回复编号点菜：3 6 15 · 3x2 · 15 不要葱`
 
-Menu points elsewhere (specials board, QR code): ask for a photo of it. Never invent dishes or prices. Unclear photo area: list what you can read and say what to re-shoot. Over ~40 items: show an index (`category — numbers — count`) first, expand on request. No preamble, no commentary outside the table.
+Menu points elsewhere (specials board, QR code): ask for a photo of it. Never invent dishes or prices. Unclear photo area: list what you can read and say what to re-shoot. Over ~40 items: show an index (`category — numbers — count`) first, expand on request. No other preamble or commentary.
 
 ## Step 2 — Ordering
 
