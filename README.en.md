@@ -14,6 +14,8 @@ You may know every word on the page and still have no idea what will arrive. Is 
 
 So the waiter stands there, you point at a line and say "this one", and find out what you ordered when it lands on the table.
 
+Even after an AI translates the menu, ordering is still a hassle: the translation doesn't line up with the original text you need to point at, and you still have to ask, one question at a time, how to say no onions, medium rare, or the bill please.
+
 I wrote this prompt from my own experience eating out. The goal is simple: **snap the menu, understand each dish, reply with a few numbers, hand your phone to the waiter. Done.**
 
 It's for international students, travelers, and anyone staring blankly at a menu. No app, no sign-up. Works in ChatGPT, Gemini, Claude, or any AI that can see images.
