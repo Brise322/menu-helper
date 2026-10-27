@@ -11,7 +11,7 @@ const TEXT = {
     placedBtn: "服务员已记下", placedLine: (n, sum) => `已下单 ${n} 项 · ${sum}`, bill: "结账卡片",
     portion: (i) => `第 ${i} 份`, split: "+ 另一份不同要求",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "必尝", loadingMore: "正在整理…", picked: "你勾选的菜品有：", ordered: "已点的菜品：", priceNote: "金额仅供参考，具体以菜单和账单为准",
+    mustTry: "必尝", loadingMore: "正在整理…", choices: "可选", needs: "需选", picked: "你勾选的菜品有：", ordered: "已点的菜品：", priceNote: "金额仅供参考，具体以菜单和账单为准",
   },
   en: {
     required: "Required", optional: "Optional", pick: "Choose",
@@ -21,7 +21,7 @@ const TEXT = {
     placedBtn: "Waiter has it", placedLine: (n, sum) => `Ordered ${n} · ${sum}`, bill: "Bill card",
     portion: (i) => `Portion ${i}`, split: "+ Another with different requests",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "Must-try", loadingMore: "Loading…", picked: "Your picks:", ordered: "Ordered:", priceNote: "Amounts are estimates; the menu and bill prevail.",
+    mustTry: "Must-try", loadingMore: "Loading…", choices: "Options", needs: "Choose", picked: "Your picks:", ordered: "Ordered:", priceNote: "Amounts are estimates; the menu and bill prevail.",
   },
   ja: {
     required: "必須", optional: "任意", pick: "選んでください",
@@ -31,7 +31,7 @@ const TEXT = {
     placedBtn: "店員さんに伝えた", placedLine: (n, sum) => `注文済み ${n} 品 · ${sum}`, bill: "会計カード",
     portion: (i) => `${i} つ目`, split: "+ 別の要望でもう一つ",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "名物", loadingMore: "整理中…", picked: "選んだ料理：", ordered: "注文済みの料理：", priceNote: "金額は目安です。メニューと会計を優先してください。",
+    mustTry: "名物", loadingMore: "整理中…", choices: "選べる", needs: "要選択", picked: "選んだ料理：", ordered: "注文済みの料理：", priceNote: "金額は目安です。メニューと会計を優先してください。",
   },
   ko: {
     required: "필수", optional: "선택", pick: "골라 주세요",
@@ -41,7 +41,7 @@ const TEXT = {
     placedBtn: "직원이 받아 적음", placedLine: (n, sum) => `주문 ${n}개 · ${sum}`, bill: "계산 카드",
     portion: (i) => `${i}번째`, split: "+ 다른 요청으로 하나 더",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", picked: "선택한 메뉴:", ordered: "주문한 메뉴:", priceNote: "금액은 참고용이며 메뉴판과 계산서가 기준입니다.",
+    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", choices: "선택 가능", needs: "필수 선택", picked: "선택한 메뉴:", ordered: "주문한 메뉴:", priceNote: "금액은 참고용이며 메뉴판과 계산서가 기준입니다.",
   },
 };
 
@@ -441,7 +441,7 @@ function itemRow(item) {
       ${item.original && item.original !== item.name ? `<div class="orig">${escapeHtml(item.original)}</div>` : ""}
       ${item.allergen ? `<div class="ban">🚫 ${escapeHtml(item.allergen)}</div>` : ""}
       ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
-      ${needsPick ? `<div class="need">${T.pick}: ${item.options.map((o) => escapeHtml(o.label)).join(" / ")}</div>` : ""}
+      ${needsPick ? `<div class="need">${T.pick}: ${item.options.map((o) => escapeHtml(o.label)).join(" / ")}</div>` : choiceHint(item)}
     </div>
     <div class="step">
       ${qty ? `<button data-sub="${item.n}" aria-label="−">−</button><span class="q">${qty}</span>` : ""}
@@ -461,6 +461,16 @@ function requestsFor(item) {
     .map((request, index) => ({ ...request, index }))
     .filter((request) => !request.for || request.for === kind)
     .filter((request) => !own.has(request.label));
+}
+
+/** 菜名下的选项提示：必选显示「需选」，否则列出前几个可选项；点击加入并展开选项 */
+function choiceHint(item) {
+  const required = item.options?.length > 0;
+  const list = required ? item.options : item.extras || [];
+  if (!list.length) return "";
+  const shown = list.slice(0, 3).map((o) => escapeHtml(o.label)).join(required ? " / " : " · ");
+  const more = list.length > 3 ? " …" : "";
+  return `<button class="hint ${required ? "hint-need" : ""}" data-opts="${item.n}">${required ? T.needs : T.choices}：${shown}${more} ›</button>`;
 }
 
 /** 展开面板：每份一行，含必选、可选、通用要求 */
@@ -658,6 +668,11 @@ document.addEventListener("click", (event) => {
     render();
     $("list").scrollTop = 0;
   } else if (d.jump) showItem(Number(d.jump));
+  else if (d.opts) {
+    const n = Number(d.opts);
+    if (!quantityOf(n)) addItem(n);
+    else { expanded.has(n) ? expanded.delete(n) : expanded.add(n); render(); }
+  }
   else if (d.add) addItem(Number(d.add));
   else if (d.sub) removeItem(Number(d.sub));
   else if (d.toggle) {

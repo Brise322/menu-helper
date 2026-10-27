@@ -41,7 +41,8 @@ const item = z.object({
   options: z.array(option).optional()
     .describe("Only when the MENU requires a choice for this item (printed size, sauce, set option to pick). Must be picked before the card"),
   extras: z.array(extra).optional()
-    .describe("Optional per-item choices the menu does not require: doneness for steak, lemon or no ice for drinks, extra cheese. Not picked = kitchen default"),
+    .describe("Optional per-item choices the menu does not require. Always give doneness (group doneness: 一分熟/三分熟/五分熟/七分熟/全熟 in LOCAL LANGUAGE) "
+      + "to every steak, grilled beef or lamb cut, burger and duck breast; also add-ons printed on the menu (supplément), egg style, lemon or no ice for drinks. Not picked = kitchen default"),
   ask: z.string().optional()
     .describe("LOCAL LANGUAGE question for the card when price or weight is unknown, e.g. Combien ça coûte ?"),
 });
