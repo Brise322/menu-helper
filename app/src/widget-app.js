@@ -183,6 +183,7 @@ let query = "";
 let view = "menu";     // menu | card | bill
 const expanded = new Set();
 let loadedSignature = "";
+const COURSE_ORDER = ["starter", "main", "side", "other", "dessert", "drink", "alcohol"];
 let streaming = false;  // 正在接收模型生成中的部分参数
 
 /** 菜单指纹：换菜单时清空选择，同一菜单刷新时恢复 */
@@ -230,6 +231,10 @@ function loadMenu(data, partial = false) {
     data = completeItems(data);
     if (!data.categories.length) return;
   }
+
+  // 按上菜顺序排分类，同一类保持原顺序
+  const rank = (c) => { const i = COURSE_ORDER.indexOf(c.course); return i < 0 ? COURSE_ORDER.indexOf("other") : i; };
+  data = { ...data, categories: data.categories.map((c, i) => [c, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map(([c]) => c) };
 
   const continuing = streaming;
   streaming = partial;
@@ -448,12 +453,25 @@ function itemRow(item) {
   return html;
 }
 
+/** 适用于这道菜的通用要求（保留原下标）：按菜品 / 饮品筛选，去掉与本菜选项同名的 */
+function requestsFor(item) {
+  const course = menu.categories[categoryOf(item.n)]?.course;
+  const kind = course === "drink" || course === "alcohol" ? "drink" : "food";
+  const own = new Set([...(item.options || []), ...(item.extras || [])].map((o) => o.label));
+  return (menu.requests || [])
+    .map((request, index) => ({ ...request, index }))
+    .filter((request) => !request.for || request.for === kind)
+    .filter((request) => !own.has(request.label));
+}
+
 /** 展开面板：每份一行，含必选、可选、通用要求 */
 function optionsPanel(item) {
   const lines = cart.filter((l) => l.n === item.n);
-  const requests = menu.requests || [];
-  const chips = (list, isOn, attr, extraClass = "") => list.map((o, i) =>
-    `<button class="chip ${extraClass} ${isOn(i) ? "on" : ""}" data-${attr}="${i}">${escapeHtml(o.label)}</button>`).join("");
+  const requests = requestsFor(item);
+  const chips = (list, isOn, attr, extraClass = "") => list.map((o, i) => {
+    const index = o.index ?? i;
+    return `<button class="chip ${extraClass} ${isOn(index) ? "on" : ""}" data-${attr}="${index}">${escapeHtml(o.label)}</button>`;
+  }).join("");
 
   let html = `<div class="panel">`;
   lines.forEach((line, portion) => {

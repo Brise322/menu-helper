@@ -3,6 +3,192 @@
  "currency": "EUR",
  "categories": [
   {
+   "emoji": "☕",
+   "name": "热饮",
+   "original": "Boissons chaudes",
+   "items": [
+    {
+     "n": 27,
+     "name": "热饮 1",
+     "original": "Café 1",
+     "price": "3 €",
+     "value": 3
+    },
+    {
+     "n": 28,
+     "name": "热饮 2",
+     "original": "Café 2",
+     "price": "4 €",
+     "value": 4
+    },
+    {
+     "n": 29,
+     "name": "热饮 3",
+     "original": "Café 3",
+     "price": "5 €",
+     "value": 5
+    },
+    {
+     "n": 30,
+     "name": "热饮 4",
+     "original": "Café 4",
+     "price": "6 €",
+     "value": 6
+    },
+    {
+     "n": 31,
+     "name": "热饮 5",
+     "original": "Café 5",
+     "price": "3 €",
+     "value": 3
+    },
+    {
+     "n": 32,
+     "name": "热饮 6",
+     "original": "Café 6",
+     "price": "4 €",
+     "value": 4
+    },
+    {
+     "n": 33,
+     "name": "热饮 7",
+     "original": "Café 7",
+     "price": "5 €",
+     "value": 5
+    },
+    {
+     "n": 34,
+     "name": "热饮 8",
+     "original": "Café 8",
+     "price": "6 €",
+     "value": 6
+    },
+    {
+     "n": 35,
+     "name": "热饮 9",
+     "original": "Café 9",
+     "price": "3 €",
+     "value": 3
+    },
+    {
+     "n": 36,
+     "name": "热饮 10",
+     "original": "Café 10",
+     "price": "4 €",
+     "value": 4
+    }
+   ],
+   "course": "drink"
+  },
+  {
+   "emoji": "🥤",
+   "name": "冷饮",
+   "original": "Boissons fraîches",
+   "items": [
+    {
+     "n": 37,
+     "name": "冷饮 1",
+     "original": "Soda 1",
+     "price": "5 €",
+     "value": 5,
+     "extras": [
+      {
+       "label": "加柠檬",
+       "local": "Avec citron"
+      },
+      {
+       "label": "少冰",
+       "local": "Peu de glaçons",
+       "group": "ice"
+      },
+      {
+       "label": "不要冰",
+       "local": "Sans glaçons",
+       "group": "ice"
+      }
+     ]
+    },
+    {
+     "n": 38,
+     "name": "冷饮 2",
+     "original": "Soda 2",
+     "price": "6 €",
+     "value": 6
+    },
+    {
+     "n": 39,
+     "name": "冷饮 3",
+     "original": "Soda 3",
+     "price": "7 €",
+     "value": 7
+    },
+    {
+     "n": 40,
+     "name": "冷饮 4",
+     "original": "Soda 4",
+     "price": "8 €",
+     "value": 8
+    },
+    {
+     "n": 41,
+     "name": "冷饮 5",
+     "original": "Soda 5",
+     "price": "5 €",
+     "value": 5
+    },
+    {
+     "n": 42,
+     "name": "冷饮 6",
+     "original": "Soda 6",
+     "price": "6 €",
+     "value": 6
+    },
+    {
+     "n": 43,
+     "name": "冷饮 7",
+     "original": "Soda 7",
+     "price": "7 €",
+     "value": 7
+    },
+    {
+     "n": 44,
+     "name": "冷饮 8",
+     "original": "Soda 8",
+     "price": "8 €",
+     "value": 8
+    },
+    {
+     "n": 45,
+     "name": "冷饮 9",
+     "original": "Soda 9",
+     "price": "5 €",
+     "value": 5
+    },
+    {
+     "n": 46,
+     "name": "冷饮 10",
+     "original": "Soda 10",
+     "price": "6 €",
+     "value": 6
+    },
+    {
+     "n": 47,
+     "name": "冷饮 11",
+     "original": "Soda 11",
+     "price": "7 €",
+     "value": 7
+    },
+    {
+     "n": 48,
+     "name": "冷饮 12",
+     "original": "Soda 12",
+     "price": "8 €",
+     "value": 8
+    }
+   ],
+   "course": "drink"
+  },
+  {
    "emoji": "🥗",
    "name": "前菜",
    "original": "Entrées",
@@ -78,7 +264,8 @@
      "value": 18,
      "desc": "⚠️ 生食"
     }
-   ]
+   ],
+   "course": "starter"
   },
   {
    "emoji": "🥬",
@@ -108,7 +295,8 @@
      "value": 16.5,
      "desc": "🐟 金枪鱼+鸡蛋+橄榄"
     }
-   ]
+   ],
+   "course": "starter"
   },
   {
    "emoji": "🥩",
@@ -234,7 +422,8 @@
       }
      ]
     }
-   ]
+   ],
+   "course": "main"
   },
   {
    "emoji": "🐟",
@@ -264,7 +453,8 @@
      "value": null,
      "ask": "Quel est le prix, s'il vous plaît ?"
     }
-   ]
+   ],
+   "course": "main"
   },
   {
    "emoji": "🍮",
@@ -301,191 +491,8 @@
      "value": 11,
      "desc": "一杯咖啡+几款小甜点"
     }
-   ]
-  },
-  {
-   "emoji": "☕",
-   "name": "热饮",
-   "original": "Boissons chaudes",
-   "items": [
-    {
-     "n": 27,
-     "name": "热饮 1",
-     "original": "Café 1",
-     "price": "3 €",
-     "value": 3
-    },
-    {
-     "n": 28,
-     "name": "热饮 2",
-     "original": "Café 2",
-     "price": "4 €",
-     "value": 4
-    },
-    {
-     "n": 29,
-     "name": "热饮 3",
-     "original": "Café 3",
-     "price": "5 €",
-     "value": 5
-    },
-    {
-     "n": 30,
-     "name": "热饮 4",
-     "original": "Café 4",
-     "price": "6 €",
-     "value": 6
-    },
-    {
-     "n": 31,
-     "name": "热饮 5",
-     "original": "Café 5",
-     "price": "3 €",
-     "value": 3
-    },
-    {
-     "n": 32,
-     "name": "热饮 6",
-     "original": "Café 6",
-     "price": "4 €",
-     "value": 4
-    },
-    {
-     "n": 33,
-     "name": "热饮 7",
-     "original": "Café 7",
-     "price": "5 €",
-     "value": 5
-    },
-    {
-     "n": 34,
-     "name": "热饮 8",
-     "original": "Café 8",
-     "price": "6 €",
-     "value": 6
-    },
-    {
-     "n": 35,
-     "name": "热饮 9",
-     "original": "Café 9",
-     "price": "3 €",
-     "value": 3
-    },
-    {
-     "n": 36,
-     "name": "热饮 10",
-     "original": "Café 10",
-     "price": "4 €",
-     "value": 4
-    }
-   ]
-  },
-  {
-   "emoji": "🥤",
-   "name": "冷饮",
-   "original": "Boissons fraîches",
-   "items": [
-    {
-     "n": 37,
-     "name": "冷饮 1",
-     "original": "Soda 1",
-     "price": "5 €",
-     "value": 5,
-     "extras": [
-      {
-       "label": "加柠檬",
-       "local": "Avec citron"
-      },
-      {
-       "label": "少冰",
-       "local": "Peu de glaçons",
-       "group": "ice"
-      },
-      {
-       "label": "不要冰",
-       "local": "Sans glaçons",
-       "group": "ice"
-      }
-     ]
-    },
-    {
-     "n": 38,
-     "name": "冷饮 2",
-     "original": "Soda 2",
-     "price": "6 €",
-     "value": 6
-    },
-    {
-     "n": 39,
-     "name": "冷饮 3",
-     "original": "Soda 3",
-     "price": "7 €",
-     "value": 7
-    },
-    {
-     "n": 40,
-     "name": "冷饮 4",
-     "original": "Soda 4",
-     "price": "8 €",
-     "value": 8
-    },
-    {
-     "n": 41,
-     "name": "冷饮 5",
-     "original": "Soda 5",
-     "price": "5 €",
-     "value": 5
-    },
-    {
-     "n": 42,
-     "name": "冷饮 6",
-     "original": "Soda 6",
-     "price": "6 €",
-     "value": 6
-    },
-    {
-     "n": 43,
-     "name": "冷饮 7",
-     "original": "Soda 7",
-     "price": "7 €",
-     "value": 7
-    },
-    {
-     "n": 44,
-     "name": "冷饮 8",
-     "original": "Soda 8",
-     "price": "8 €",
-     "value": 8
-    },
-    {
-     "n": 45,
-     "name": "冷饮 9",
-     "original": "Soda 9",
-     "price": "5 €",
-     "value": 5
-    },
-    {
-     "n": 46,
-     "name": "冷饮 10",
-     "original": "Soda 10",
-     "price": "6 €",
-     "value": 6
-    },
-    {
-     "n": 47,
-     "name": "冷饮 11",
-     "original": "Soda 11",
-     "price": "7 €",
-     "value": 7
-    },
-    {
-     "n": 48,
-     "name": "冷饮 12",
-     "original": "Soda 12",
-     "price": "8 €",
-     "value": 8
-    }
-   ]
+   ],
+   "course": "dessert"
   },
   {
    "emoji": "🍺",
@@ -562,7 +569,8 @@
      "price": "7 €",
      "value": 7
     }
-   ]
+   ],
+   "course": "alcohol"
   },
   {
    "emoji": "🍸",
@@ -709,7 +717,8 @@
      "price": "15 €",
      "value": 15
     }
-   ]
+   ],
+   "course": "alcohol"
   },
   {
    "emoji": "🥃",
@@ -891,7 +900,8 @@
      "price": "10 €",
      "value": 10
     }
-   ]
+   ],
+   "course": "alcohol"
   },
   {
    "emoji": "🍶",
@@ -1073,7 +1083,8 @@
      "price": "8 €",
      "value": 8
     }
-   ]
+   ],
+   "course": "alcohol"
   },
   {
    "emoji": "🍷",
@@ -1255,7 +1266,8 @@
      "price": "9 €",
      "value": 9
     }
-   ]
+   ],
+   "course": "alcohol"
   },
   {
    "emoji": "🥂",
@@ -1423,29 +1435,35 @@
      "price": "11 €",
      "value": 11
     }
-   ]
+   ],
+   "course": "alcohol"
   }
  ],
  "requests": [
   {
    "label": "不要洋葱",
-   "local": "Sans oignon, s'il vous plaît."
+   "local": "Sans oignon, s'il vous plaît.",
+   "for": "food"
   },
   {
    "label": "酱汁分开",
-   "local": "La sauce à part, s'il vous plaît."
+   "local": "La sauce à part, s'il vous plaît.",
+   "for": "food"
   },
   {
    "label": "不要奶酪",
-   "local": "Sans fromage, s'il vous plaît."
+   "local": "Sans fromage, s'il vous plaît.",
+   "for": "food"
   },
   {
    "label": "少盐",
-   "local": "Peu salé, s'il vous plaît."
+   "local": "Peu salé, s'il vous plaît.",
+   "for": "food"
   },
   {
    "label": "不要冰",
-   "local": "Sans glaçons, s'il vous plaît."
+   "local": "Sans glaçons, s'il vous plaît.",
+   "for": "drink"
   }
  ],
  "card": {

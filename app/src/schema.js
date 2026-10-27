@@ -8,6 +8,10 @@ const option = z.object({
   local: z.string().describe("How a local says it to the waiter, in LOCAL LANGUAGE, e.g. Saignant / Sans oignon, s'il vous plaît."),
 });
 
+const request = option.extend({
+  for: z.enum(["food", "drink"]).optional().describe("food = shown on dishes only, drink = on drinks only; omit for both"),
+});
+
 const extra = option.extend({
   group: z.string().optional().describe("Same group = pick at most one, e.g. doneness"),
 });
@@ -44,6 +48,8 @@ const item = z.object({
 
 const category = z.object({
   emoji: z.string().describe("One emoji that fits the category, e.g. 🥗 🥩 🍷"),
+  course: z.enum(["starter", "main", "side", "dessert", "drink", "alcohol", "other"])
+    .describe("Course of this category; the widget orders tabs starter → main → side → other → dessert → drink → alcohol"),
   name: z.string().describe("USER LANGUAGE"),
   original: z.string().optional().describe("As printed; omit when identical to name"),
   items: z.array(item),
@@ -69,8 +75,10 @@ export const menuShape = {
     .describe("One line in USER LANGUAGE shown under the menu: unreadable or cut-off parts and what to re-shoot, if any; "
       + "then invite the user to ask about any dish, ask for a recommendation, or share allergies. In your own words"),
   currency: z.string().describe("ISO code, e.g. EUR"),
-  categories: z.array(category).describe("In menu order; every item on every photo"),
-  requests: z.array(option).describe("4–6 common requests for this cuisine (不要葱, 不要辣, 少盐, 不要冰…)"),
+  categories: z.array(category)
+    .describe("Every item on every photo. Order by course (starters, mains, sides, desserts, drinks, alcohol), menu order within a course; number items in this order"),
+  requests: z.array(request)
+    .describe("4–6 common requests for this cuisine (不要葱, 不要辣, 少盐, 不要冰…). Set for: drink on drink requests, for: food on food requests. Never repeat choices already in an item's options or extras (doneness)"),
   card,
   notes: z.array(z.string()).optional()
     .describe("Printed charges and rules (tax, service, cover charge, minimum, time limit) plus one allergy note if stated. USER LANGUAGE"),
