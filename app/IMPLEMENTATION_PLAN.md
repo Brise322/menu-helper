@@ -15,8 +15,10 @@ ChatGPT App 版：AI 识别菜单后调用 `show_menu`，对话里出现可点�
 ## 阶段 3: 部署与 ChatGPT 联调
 **目标**: `wrangler deploy` 到 Cloudflare；ChatGPT 开发者模式连接 `https://<worker>/mcp`
 **成功标准**: 手机 ChatGPT 发菜单照片 → 组件出现 → 点菜 → 卡片
-**状态**: 进行中（已部署 https://menu-helper.brise322.workers.dev/mcp ，待 ChatGPT 实测）
+**状态**: 已完成（已部署 https://menu-helper.brise322.workers.dev/mcp ；ChatGPT 网页版实测：组件出现、分类切换、加减、小计、法语卡片全屏）
 
 ## 阶段 4: 提交
 **目标**: README 增加 App 用法；OpenAI 平台提交审核
-**状态**: 未开始
+**已备**: PRIVACY.md、TERMS.md、plugin/mcp.json、plugin.json 四个网址 + 5 正 3 负测试用例（review/ 测试图）、/.well-known/openai-apps-challenge（读环境变量 OPENAI_APPS_CHALLENGE）
+**待办**: 演示视频网址 demo_recording_url；域名验证 token；category 取值以后台为准
+**状态**: 进行中

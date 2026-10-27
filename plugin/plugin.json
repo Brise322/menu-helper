@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "menu-helper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Read restaurant menu photos and order abroad: numbered, translated menu table, then a waiter card in the local language.",
   "author": {
     "name": "Brise322",
@@ -10,13 +10,20 @@
   "homepage": "https://github.com/Brise322/menu-helper",
   "repository": "https://github.com/Brise322/menu-helper",
   "license": "MIT",
-  "keywords": ["menu", "restaurant", "translation", "travel", "food", "ordering"],
+  "keywords": [
+    "menu",
+    "restaurant",
+    "translation",
+    "travel",
+    "food",
+    "ordering"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Menu Helper",
         "shortDescription": "Read any menu, order easily",
-        "longDescription": "Send a photo of a restaurant menu in any language. Menu Helper tells you what kind of place it is and which dishes the region is known for, then lists every dish in a numbered table: translated name, original name, what the dish actually is, and price. Unfamiliar dishes are compared with food you know; surprises such as offal, raw meat, strong smells or strong spirits are flagged; dishes that may contain your stated allergens are marked.\n\nReply with numbers (for example \"3 6 15x2 no onions\"). It asks about required choices such as size, doneness or set-menu options, then returns a confirmation list with prices and a rough conversion to your home currency, a card in the local language to hand to the waiter (including your allergy, if you mentioned one), and key phrases with pronunciation for ordering and paying. During the meal it handles add-ons, changes, the running bill, receipt checks and multi-page menus.\n\nFor international students, travelers, and anyone facing a menu they can't read.\n\nLimitations: it only uses what is printed on the menu and does not invent dishes or prices; unreadable prices are shown as \"?\" with a request to re-shoot that area. Descriptions inferred from a dish name may be wrong and are marked as a guess. Allergen icons are a guide, not a guarantee: always confirm allergies with staff. Currency conversion is approximate.",
+        "longDescription": "Send a photo of a restaurant menu in any language. Menu Helper tells you what kind of place it is and which dishes the region is known for, then shows every dish in an interactive menu: category tabs, search, translated name, original name, what the dish actually is, and price. Unfamiliar dishes are compared with food you know; surprises such as offal, raw meat, strong smells or strong spirits are flagged; dishes that may contain your stated allergens are marked.\n\nTap + and − to order. Required choices such as doneness must be picked before the card is made, and common requests (no onions, sauce on the side) are one tap. \"Waiter card\" shows a full-screen card in the local language to hand to the waiter (including your allergy, if you mentioned one), with a confirmation list and subtotal. After the waiter takes the order, new picks become an add-on card, and a bill card asks for the check. You can also reply with numbers in chat (for example \"3 6 15x2 no onions\"). In chat it also handles changes, receipt checks and multi-page menus.\n\nFor international students, travelers, and anyone facing a menu they can't read.\n\nLimitations: it only uses what is printed on the menu and does not invent dishes or prices; unreadable prices are shown as \"?\" with a request to re-shoot that area. Descriptions inferred from a dish name may be wrong and are marked as a guess. Allergen icons are a guide, not a guarantee: always confirm allergies with staff. Currency conversion is approximate.",
         "developerName": "Brise322",
         "category": "Lifestyle",
         "defaultPrompt": [
@@ -26,16 +33,90 @@
         ],
         "brandColor": "#E8553E",
         "logo": "./assets/icon.png",
-        "composerIcon": "./assets/icon.svg"
+        "composerIcon": "./assets/icon.svg",
+        "websiteURL": "https://github.com/Brise322/menu-helper",
+        "supportURL": "https://github.com/Brise322/menu-helper/issues",
+        "privacyPolicyURL": "https://github.com/Brise322/menu-helper/blob/main/PRIVACY.md",
+        "termsOfServiceURL": "https://github.com/Brise322/menu-helper/blob/main/TERMS.md"
       },
       "publication": {
-        "release_notes": "First release: menu table with regional must-try dishes, waiter card in the local language, allergy marking, phrases, add-ons, changes and bill.",
+        "release_notes": "Interactive menu with + / −, required-choice checks, one-tap requests, full-screen waiter card, add-on and bill cards.",
         "translations": {
           "zh-CN": {
             "subtitle": "看不懂的菜单，拍一下就能点",
-            "description": "拍一下任何语言的菜单，Menu Helper 会先告诉你这是一家什么店、当地有哪些必尝菜，然后把所有菜列成带编号的表格：中文名、原文、这道菜到底是什么、价格。没见过的菜用你熟悉的东西类比；内脏、生食、气味重、烈酒等会标 ⚠️；你说过的过敏原会标 🚫。\n\n回复编号点菜（例如「3 6 15x2 不要葱」）。份量、几分熟、套餐选项等必选项会先问清楚，然后给出带价格和约合人民币的确认清单、一张用当地语言写的服务员卡片（含你的过敏说明），以及带发音的点餐和结账常用语。吃饭过程中可以加菜、改单、算账单、核对小票，多页菜单会接着编号。\n\n适合留学生、出国旅行的人，以及任何看不懂菜单的人。\n\n限制：只使用菜单上印出的内容，不编造菜品和价格；看不清的价格写「?」并提示补拍。只凭菜名推断的介绍会标「推测」。过敏图标仅供参考，请务必当面向店员确认。汇率换算为约数。"
+            "description": "拍一下任何语言的菜单，Menu Helper 会先告诉你这是一家什么店、当地有哪些必尝菜，然后把所有菜放进可点选的菜单：分类标签、搜索、中文名、原文、这道菜到底是什么、价格。没见过的菜用你熟悉的东西类比；内脏、生食、气味重、烈酒等会标 ⚠️；你说过的过敏原会标 🚫。\n\n点 + / − 选菜。几分熟等必选项选好才能出卡片，不要洋葱、酱汁分开等常用要求点一下就行。点「生成卡片」全屏显示当地语言的服务员卡片（含你的过敏说明），下面是中文确认清单和小计。服务员记下后再选的菜会生成加菜卡片，还有结账卡片。也可以在对话里直接回复编号点菜（例如「3 6 15x2 不要葱」），改单、核对小票、多页菜单都在对话里处理。\n\n适合留学生、出国旅行的人，以及任何看不懂菜单的人。\n\n限制：只使用菜单上印出的内容，不编造菜品和价格；看不清的价格写「?」并提示补拍。只凭菜名推断的介绍会标「推测」。过敏图标仅供参考，请务必当面向店员确认。汇率换算为约数。"
           }
         }
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Greek menu photo, no text",
+              "prompt": "帮我看看这个菜单",
+              "tools_triggered": "show_menu",
+              "expected_behavior": "A short intro of the restaurant (Greek taverna, Crete) and 3–5 must-try dishes with numbers in chat, then show_menu is called with all 17 items in 5 categories. The widget shows category tabs; Moussaka is described as Greek lasagna; Kokoretsi is flagged ⚠️ as offal.",
+              "file_attachment_urls": [
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_gr.png"
+              ]
+            },
+            {
+              "description": "Japanese izakaya menu with peanut allergy",
+              "prompt": "I'm allergic to peanuts. What can I order here?",
+              "tools_triggered": "show_menu",
+              "expected_behavior": "Intro and must-try dishes in English, then show_menu with all items; dishes that may contain peanuts start with 🚫 and card.allergy contains the peanut allergy sentence in Japanese. The waiter card shows the allergy line under the opening.",
+              "file_attachment_urls": [
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_ja.png"
+              ]
+            },
+            {
+              "description": "Three-page French brasserie menu",
+              "prompt": "Here's the menu, all three pages",
+              "tools_triggered": "show_menu",
+              "expected_behavior": "show_menu is called once with every item from all three photos (about 59 items) and unique numbers. Steak items carry doneness options; tapping + on a steak and then Waiter card asks for doneness first, then shows a French card with the doneness in French.",
+              "file_attachment_urls": [
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_fr_big_p1.png",
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_fr_big_p2.png",
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_fr_big_p3.png"
+              ]
+            },
+            {
+              "description": "Ordering in the widget and making the waiter card",
+              "prompt": "Show me this menu so I can order",
+              "tools_triggered": "show_menu",
+              "expected_behavior": "After show_menu, tapping + twice on one dish and once on another updates the subtotal immediately; Waiter card shows a Thai opening line, an English line, each dish's original name with ×quantity, and a confirmation list with subtotal.",
+              "file_attachment_urls": [
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_th.png"
+              ]
+            },
+            {
+              "description": "Add-on order after the first card",
+              "prompt": "Show the menu, I'll order and then add a dessert later",
+              "tools_triggered": "show_menu",
+              "expected_behavior": "After the first card, tapping Waiter has it records the order; picking a dessert and tapping Waiter card again shows a Greek add-on card listing only the dessert; Bill card shows the Greek 'the bill, please' sentence and the full order total.",
+              "file_attachment_urls": [
+                "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_gr.png"
+              ]
+            }
+          ],
+          "negative": [
+            {
+              "description": "Request unrelated to menus",
+              "prompt": "Book me a table for two at a restaurant in Paris tonight."
+            },
+            {
+              "description": "Photo that is not a menu",
+              "prompt": "Translate the menu in this photo (a landscape photo with no text is attached)."
+            },
+            {
+              "description": "Request to guarantee allergy safety",
+              "prompt": "Promise me nothing on this menu contains peanuts so I don't need to ask the waiter."
+            }
+          ]
+        },
+        "demo_recording_url": "",
+        "commerce": false,
+        "commerce_description": ""
       }
     }
   }

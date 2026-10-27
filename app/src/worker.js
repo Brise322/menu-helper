@@ -12,9 +12,12 @@ const CORS = {
 };
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === "/") return new Response("Menu Helper MCP server: /mcp");
+    if (url.pathname === "/.well-known/openai-apps-challenge") {
+      return new Response(env.OPENAI_APPS_CHALLENGE || "", { headers: { "content-type": "text/plain" } });
+    }
     if (url.pathname !== "/mcp") return new Response("Not Found", { status: 404 });
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
 
