@@ -30,6 +30,10 @@
   header { padding: 12px 14px 8px; border-bottom: 1px solid var(--line); }
   .title { font-weight: 650; font-size: 16px; }
   .sub { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .intro { font-size: 13.5px; margin-top: 6px; }
+  .intro-text { margin-top: 4px; color: var(--fg); }
+  .must { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; align-items: center; }
+  .must button { padding: 3px 9px; border-radius: 999px; background: var(--chip); font-size: 12.5px; }
   .search { margin-top: 8px; width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line);
     background: var(--chip); color: var(--fg); font: inherit; font-size: 14px; }
   .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 8px 14px; border-bottom: 1px solid var(--line);
@@ -110,6 +114,7 @@
   <header>
     <div class="title" id="title"></div>
     <div class="sub" id="sub"></div>
+    <div class="intro" id="intro"></div>
     <input class="search" id="search" type="search" autocomplete="off">
   </header>
   <div class="placed hidden" id="placed"><span id="placedText"></span><button id="billBtn"></button></div>
@@ -129,18 +134,20 @@
 </div>
 
 <script type="module">
-const zh = (document.documentElement.lang || navigator.language || "zh").toLowerCase().startsWith("zh");
-const T = zh ? {
+let zh = (document.documentElement.lang || navigator.language || "zh").toLowerCase().startsWith("zh");
+const TZH = {
   required: "必选", optional: "可选", search: "搜索菜名或编号", items: "项", cats: "类", selected: "已选", none: "还没选菜", total: "小计", card: "生成卡片",
   pick: "请选择", back: "返回修改", placedBtn: "服务员已记下", placedLine: (n, s) => `已下单 ${n} 项 · ${s}`,
   bill: "结账卡片", close: "返回", showWaiter: "给服务员看", portion: (i) => `第 ${i} 份`, split: "+ 另一份不同要求", incomplete: "部分价格未知，合计不完整",
   noResult: "没有找到", all: "全部", qty: "数量", done: "完成", fullscreen: "全屏",
-} : {
+};
+const TEN = {
   required: "Required", optional: "Optional", search: "Search name or number", items: "items", cats: "categories", selected: "Selected", none: "Nothing selected", total: "Subtotal", card: "Waiter card",
   pick: "Choose", back: "Edit", placedBtn: "Waiter has it", placedLine: (n, s) => `Ordered ${n} · ${s}`,
   bill: "Bill card", close: "Back", showWaiter: "Show the waiter", portion: (i) => `Portion ${i}`, split: "+ Another with different requests", incomplete: "Some prices unknown; total incomplete",
   noResult: "No match", all: "All", qty: "Qty", done: "Done", fullscreen: "Full screen",
 };
+let T = zh ? TZH : TEN;
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -232,6 +239,7 @@ function load(data) {
   loadedSig = sig;
   const oldKey = menu ? menuKey() : "";
   menu = data;
+  if (menu.lang) { zh = menu.lang.toLowerCase().startsWith("zh"); T = zh ? TZH : TEN; }
   byN = new Map();
   for (const c of menu.categories) for (const it of c.items) if (it && typeof it.n === "number") byN.set(it.n, it);
   if (menuKey() !== oldKey) { lines = []; placed = []; round = 0; tab = 0; open.clear(); restoreState(); }
@@ -290,6 +298,10 @@ function renderMenu() {
   const total = menu.categories.reduce((s, c) => s + c.items.length, 0);
   $("title").textContent = `📍 ${menu.restaurant}`;
   $("sub").textContent = `${menu.currency} · ${menu.categories.length} ${T.cats} · ${total} ${T.items}`;
+  const must = [...byN.values()].filter((it) => it.tag === "must");
+  $("intro").innerHTML = (menu.cuisine ? `<div>🗺️ ${esc(menu.cuisine)}</div>` : "")
+    + (menu.intro ? `<div class="intro-text">${esc(menu.intro)}</div>` : "")
+    + (must.length ? `<div class="must">🏅 ${must.map((it) => `<button data-jump="${it.n}">#${it.n} ${esc(it.name)}</button>`).join("")}</div>` : "");
   $("search").placeholder = T.search;
 
   const nSel = lines.reduce((s, l) => s + l.qty, 0);
@@ -469,6 +481,12 @@ document.addEventListener("click", (e) => {
   if (!b) return;
   const d = b.dataset;
   if (d.tab !== undefined) { tab = Number(d.tab); query = ""; $("search").value = ""; render(); $("list").scrollTop = 0; return; }
+  if (d.jump) {
+    const n = Number(d.jump);
+    tab = menu.categories.findIndex((c) => c.items.some((it) => it.n === n)); query = ""; $("search").value = ""; render();
+    document.querySelector(`.row[data-n="${n}"]`)?.scrollIntoView({ block: "center" });
+    return;
+  }
   if (d.add) return add(Number(d.add));
   if (d.sub) return sub(Number(d.sub));
   if (d.toggle) { const n = Number(d.toggle); if (qtyOf(n)) { open.has(n) ? open.delete(n) : open.add(n); render(); } return; }

@@ -3,28 +3,26 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-export const WIDGET_URI = "ui://menu-helper/menu-v3.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v4.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 export const INSTRUCTIONS = `Menu Helper: the user sends restaurant menu photos and orders from an interactive menu.
 
-When the user sends menu photos:
-1. In chat, in USER LANGUAGE (the language the user writes in; Simplified Chinese if only photos), write only:
-   - \`📍 <restaurant> · <currency code> · <N> categories · <M> items\`
-   - \`🗺️ <cuisine and region, as specific as the menu allows>\`
-   - 1–2 sentences: what kind of place, how people eat here, price level. Emoji only when they match exactly.
-   - \`🏅 必尝：<3–5 dishes on this menu the region is famous for, with #>\` — skip if none.
-   - If the user sent context or questions with the photo, answer briefly first.
-2. Then call show_menu once with EVERY item on every photo. Do not write the menu table in chat.
-3. After the tool, in USER LANGUAGE: if part of a photo was unreadable or cut off, one line saying which items or prices and what to re-shoot. Then \`有过敏或忌口直接告诉我\`. Nothing else: do not say the tool was called or what the widget shows, no page breakdown, no item counts, no mention of earlier restaurants or tests.
+USER LANGUAGE is the language of the user's own message text (an English message → English everywhere, including widget fields); Simplified Chinese only if the user sent photos without text. The ChatGPT interface language does not decide it.
 
+When the user sends menu photos:
+1. If the user sent context or questions with the photo, answer briefly in chat first.
+2. Call show_menu once with EVERY item on every photo, including cuisine, intro and 🏅 tags; the widget shows them at the top. Do not write the header, intro or menu table in chat.
+3. After the tool, in USER LANGUAGE: if part of a photo was unreadable or cut off, one line saying which items or prices and what to re-shoot. Then one short line inviting allergies or avoidances. Nothing else: do not say the tool was called or what the widget shows, no page breakdown, no item counts, no mention of earlier restaurants or tests.
+
+Allergy or avoidance stated: 🚫 only on items that contain or may contain it, with the reason (🚫 花生酱汁); no 🚫 and no allergy text on other items; never repeat a generic "ask the staff" warning per item. Put it once in card.allergy and once in notes.
 More photos of the same restaurant: call show_menu again with the full merged menu, keeping numbers. A different restaurant: start over.
-User states an allergy or avoidance: call show_menu again with 🚫 on affected items and card.allergy set.
+User states an allergy or avoidance later: call show_menu again with the rules above.
 User types numbers or requests in chat instead: answer with a confirmation list and a waiter card in LOCAL LANGUAGE (the menu's language) as plain text.
 Receipts: translate each line and compare with the order. Never invent dishes or prices.`;
 
 const option = z.object({
-  label: z.string().describe("In USER LANGUAGE, short, e.g. 三分熟, 不要葱"),
+  label: z.string().describe("In USER LANGUAGE, short, e.g. 三分熟 / medium rare"),
   local: z.string().describe("How a local says it to the waiter, in LOCAL LANGUAGE, e.g. Saignant / Sans oignon, s'il vous plaît."),
 });
 
@@ -33,8 +31,8 @@ const item = z.object({
   code: z.string().optional().describe("Number as printed on the menu, only if printed"),
   name: z.string().describe("Natural translation in USER LANGUAGE; check it against the original"),
   original: z.string().describe("As printed, without a printed option list (\"Burger (frites ou salade)\" → \"Burger\"); the options go in options"),
-  desc: z.string().optional().describe("What a tourist needs to decide, ≤20 Chinese chars / 12 English words. Empty when obvious (fries, cola). Unfamiliar: compare with something familiar. Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 when it conflicts with a stated allergy. 🌶1–3 only when spicy. 「推测」 only when unsure."),
-  tag: z.enum(["must", "star"]).optional().describe("must = 🏅 regional must-try; star = marked by the menu"),
+  desc: z.string().optional().describe("What a tourist needs to decide, ≤20 Chinese chars / 12 English words. Add what the name does not say; never restate it. Empty when obvious (fries, cola). Unfamiliar: compare with something familiar. Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 + reason only when it contains or may contain a stated allergen. 🌶1–3 only when spicy. 「推测」 only when unsure."),
+  tag: z.enum(["must", "star"]).optional().describe("must = 🏅 one of 3–5 dishes on this menu the region is famous for; star = marked by the menu"),
   price: z.string().describe("As printed with units, e.g. 12,50 € · 2 pcs · /kg; market price → 时价; unreadable → ?"),
   value: z.number().nullable().optional().describe("Numeric price per selling unit, null when unknown or by weight"),
   options: z.array(option).optional().describe("Only when the MENU requires a choice for this item (printed size, sauce, set option to pick). Must be picked before the card"),
@@ -44,6 +42,9 @@ const item = z.object({
 
 const menuShape = {
   restaurant: z.string(),
+  lang: z.string().optional().describe("USER LANGUAGE as a BCP 47 code, e.g. zh-CN, en, ja; sets the widget's button language"),
+  cuisine: z.string().optional().describe("Cuisine and region, as specific as the menu allows, e.g. 希腊菜 · 克里特岛风味"),
+  intro: z.string().optional().describe("1–2 sentences in USER LANGUAGE: what kind of place, how people eat here, price level. Emoji only when they match exactly"),
   currency: z.string().describe("ISO code, e.g. EUR"),
   categories: z.array(z.object({
     emoji: z.string().optional(),
@@ -59,7 +60,7 @@ const menuShape = {
     bill: z.string().describe("\"The bill, please.\" in LOCAL LANGUAGE"),
     allergy: z.string().optional().describe("Only if the user stated one: \"I'm allergic to ___. Please check the ingredients.\" in LOCAL LANGUAGE"),
   }),
-  notes: z.array(z.string()).optional().describe("Printed only: tax, service, cover charge, minimum, time limit. USER LANGUAGE"),
+  notes: z.array(z.string()).optional().describe("Printed charges and rules (tax, service, cover charge, minimum, time limit) plus one allergy note if stated. USER LANGUAGE"),
 };
 
 export const menuSchema = z.object(menuShape);
