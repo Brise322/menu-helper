@@ -369,8 +369,7 @@ function renderHeader() {
   $("intro").innerHTML = (about ? `<div class="intro-box">${about}</div>` : "")
     + (mustTry.length
       ? `<div class="must"><span class="must-label">🏅 ${T.mustTry}</span>${mustTry.map((item) => `<button data-jump="${item.n}">#${item.n} ${escapeHtml(item.name)}</button>`).join("")}</div>`
-      : "")
-    + (menu.tip ? `<div class="tip">💬 ${escapeHtml(menu.tip)}</div>` : "");
+      : "");
   $("search").placeholder = T.search;
 
   if (placed.length) {

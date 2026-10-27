@@ -71,9 +71,6 @@ export const menuShape = {
   intro: z.string().describe("1–2 sentences in USER LANGUAGE: what kind of place, how people eat here, price level. A few emoji that match exactly, e.g. 🍷 🥖"),
   mustTry: z.array(z.number().int()).min(1).max(5)
     .describe("Numbers of 3–5 dishes on this menu the region or restaurant is famous for (🏅); fewer only for a tiny menu"),
-  tip: z.string()
-    .describe("One line in USER LANGUAGE shown under the menu: unreadable or cut-off parts and what to re-shoot, if any; "
-      + "then invite the user to ask about any dish, ask for a recommendation, or share allergies. In your own words"),
   currency: z.string().describe("ISO code, e.g. EUR"),
   categories: z.array(category)
     .describe("Every item on every photo. Order by course (starters, mains, sides, desserts, drinks, alcohol), menu order within a course; number items in this order"),

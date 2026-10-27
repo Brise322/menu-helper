@@ -28,7 +28,7 @@ app/
 ## 数据流
 
 1. 模型读菜单照片，按 `schema.js` 生成整张菜单，调用 `show_menu`。
-2. 服务端原样返回 `structuredContent`，ChatGPT 加载组件 `ui://menu-helper/menu-v8.html`。
+2. 服务端原样返回 `structuredContent`，ChatGPT 加载组件 `ui://menu-helper/menu-v9.html`。
 3. 组件通过 MCP Apps 协议（`postMessage` 上的 JSON-RPC）收到菜单，本地完成点菜。
 4. 点「服务员已记下」后，组件用 `ui/update-model-context` 把已点内容告诉模型，供后续结账、核对小票。
 

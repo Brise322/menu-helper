@@ -96,9 +96,9 @@ test("旧版本组件 URI 返回当前组件", async () => {
   }
 });
 
-test("缺少必尝菜、简介或引导语时报错", async () => {
+test("缺少必尝菜或简介时报错", async () => {
   const client = await connect();
-  for (const field of ["mustTry", "intro", "tip"]) {
+  for (const field of ["mustTry", "intro"]) {
     const menu = structuredClone(sample);
     delete menu[field];
     const result = await client.callTool({ name: "show_menu", arguments: menu });

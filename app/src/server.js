@@ -6,7 +6,7 @@ import { menuShape } from "./schema.js";
 import { cleanAllergyText } from "./allergy.js";
 
 // 组件 URI 是宿主的缓存键，组件或参数有不兼容改动时递增版本号
-export const WIDGET_URI = "ui://menu-helper/menu-v8.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v9.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 // 宿主可能仍缓存旧版本的 URI，旧版本统一返回当前组件
@@ -50,8 +50,9 @@ export function createServer(widgetHtml) {
     {
       title: "Show menu",
       description: "Shows the full translated menu as an interactive list. The user taps + / − to order and gets a waiter card in the local language. "
-        + "Call after reading menu photos, with every item, cuisine, intro, 3–5 mustTry numbers, a category emoji per category and a tip line. "
-        + "After it returns, write nothing in chat: the widget already shows everything.",
+        + "Call after reading menu photos, with every item, cuisine, intro, 3–5 mustTry numbers, and an emoji and course per category. "
+        + "After it returns, write at most two lines: ⚠️ unreadable parts only if any, then an invitation to ask follow-up questions "
+        + "with 2–3 concrete examples from this menu. Never report what you did or count items or pages.",
       inputSchema: menuShape,
       annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
       _meta: {
