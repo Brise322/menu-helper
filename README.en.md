@@ -87,6 +87,12 @@ Below the card is a phrase table: call the waiter, water, not spicy, allergies, 
 
 The output language follows the language you write in, so English speakers get English tables.
 
+## Before you start
+
+- **Use medium or default reasoning, not the highest**: at the highest level it keeps searching the web and a menu can take several minutes, too long when you're hungry.
+- **Take clear photos**: shoot the menu straight on, without glare or blur. Use several photos if one page doesn't fit, and keep the prices in frame; anything unreadable is shown as `?`.
+- **Add any extra needs**: one line with the photo is enough, e.g. "3 of us, under €30 each", "nothing spicy", "we want local specialties". It uses that for the intro and suggestions.
+
 ## What it won't do
 
 - Invent dishes or prices. Unreadable prices show as `?`, and it tells you which part to re-shoot.
