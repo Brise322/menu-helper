@@ -15,7 +15,7 @@ ChatGPT App 版：AI 识别菜单后调用 `show_menu`，对话里出现可点�
 ## 阶段 3: 部署与 ChatGPT 联调
 **目标**: `wrangler deploy` 到 Cloudflare；ChatGPT 开发者模式连接 `https://<worker>/mcp`
 **成功标准**: 手机 ChatGPT 发菜单照片 → 组件出现 → 点菜 → 卡片
-**状态**: 进行中（等待 wrangler login）
+**状态**: 进行中（已部署 https://menu-helper.brise322.workers.dev/mcp ，待 ChatGPT 实测）
 
 ## 阶段 4: 提交
 **目标**: README 增加 App 用法；OpenAI 平台提交审核
