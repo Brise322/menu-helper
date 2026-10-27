@@ -3,9 +3,10 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { INSTRUCTIONS, toolResultText } from "./instructions.js";
 import { menuShape } from "./schema.js";
+import { cleanAllergyText } from "./allergy.js";
 
 // 组件 URI 是宿主的缓存键，组件或参数有不兼容改动时递增版本号
-export const WIDGET_URI = "ui://menu-helper/menu-v5.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v6.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 /**
@@ -46,7 +47,8 @@ export function createServer(widgetHtml) {
         "openai/toolInvocation/invoked": "菜单已就绪",
       },
     },
-    async (menu) => {
+    async (input) => {
+      const menu = cleanAllergyText(input);
       const itemCount = menu.categories.reduce((sum, c) => sum + c.items.length, 0);
       return {
         content: [{ type: "text", text: toolResultText(itemCount) }],

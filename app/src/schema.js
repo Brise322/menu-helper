@@ -22,10 +22,12 @@ const item = z.object({
   desc: z.string().optional()
     .describe("What a tourist needs to decide, ≤20 Chinese chars / 12 English words. Add what the name does not say; never restate it. "
       + "Empty when obvious (fries, cola). Unfamiliar dish: compare with something familiar (Okonomiyaki → 像日式蔬菜煎饼). "
-      + "Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 + reason only when it contains or may contain a stated allergen; no allergy, cross-contact or ask-the-staff text on any other item. "
+      + "Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; Never mention allergies, cross-contact or checking ingredients here; that goes only in allergen. "
       + "🌶1–3 only when spicy. 「推测」 only when unsure."),
   name: z.string()
     .describe("Natural translation in USER LANGUAGE, written after desc and naming the same dish. Never guess from a similar-looking word; unsure → transliterate"),
+  allergen: z.string().optional()
+    .describe("Only when the user stated an allergy or avoidance and this dish contains or may contain it: the reason in USER LANGUAGE, e.g. 花生酱汁. Omit on every other item"),
   tag: z.enum(["must", "star"]).optional()
     .describe("must = 🏅 one of 3–5 dishes on this menu the region is famous for; star = marked by the menu"),
   price: z.string()

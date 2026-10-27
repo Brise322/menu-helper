@@ -426,6 +426,7 @@ function itemRow(item) {
     <div class="main" data-toggle="${item.n}">
       <div class="name-row"><span class="name">${badge}${escapeHtml(item.name)}</span><span class="price">${escapeHtml(item.price)}</span></div>
       ${item.original && item.original !== item.name ? `<div class="orig">${escapeHtml(item.original)}</div>` : ""}
+      ${item.allergen ? `<div class="ban">🚫 ${escapeHtml(item.allergen)}</div>` : ""}
       ${item.desc ? `<div class="desc">${escapeHtml(item.desc)}</div>` : ""}
       ${needsPick ? `<div class="need">${T.pick}: ${item.options.map((o) => escapeHtml(o.label)).join(" / ")}</div>` : ""}
     </div>

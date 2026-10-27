@@ -13,6 +13,7 @@ app/
 │   ├── server.js         MCP 服务端：注册 show_menu 工具和组件资源
 │   ├── schema.js         show_menu 参数结构（字段说明会发给模型）
 │   ├── instructions.js   给模型的说明
+│   ├── allergy.js        用户说明过敏时清理其他菜品描述里的过敏提醒
 │   ├── bundle.js         把组件的 CSS、JS 内联成单个 HTML
 │   ├── widget.html       组件页面骨架
 │   ├── widget.css        组件样式
@@ -27,7 +28,7 @@ app/
 ## 数据流
 
 1. 模型读菜单照片，按 `schema.js` 生成整张菜单，调用 `show_menu`。
-2. 服务端原样返回 `structuredContent`，ChatGPT 加载组件 `ui://menu-helper/menu-v5.html`。
+2. 服务端原样返回 `structuredContent`，ChatGPT 加载组件 `ui://menu-helper/menu-v6.html`。
 3. 组件通过 MCP Apps 协议（`postMessage` 上的 JSON-RPC）收到菜单，本地完成点菜。
 4. 点「服务员已记下」后，组件用 `ui/update-model-context` 把已点内容告诉模型，供后续结账、核对小票。
 
