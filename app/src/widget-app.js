@@ -11,6 +11,7 @@ const TEXT = {
     placedBtn: "服务员已记下", placedLine: (n, sum) => `已下单 ${n} 项 · ${sum}`, bill: "结账卡片",
     portion: (i) => `第 ${i} 份`, split: "+ 另一份不同要求",
     addEnglish: "We'd like to add these, please.",
+    mustTry: "必尝", loadingMore: "正在整理…", picked: "你勾选的菜品有：", ordered: "已点的菜品：",
   },
   en: {
     required: "Required", optional: "Optional", pick: "Choose",
@@ -20,17 +21,41 @@ const TEXT = {
     placedBtn: "Waiter has it", placedLine: (n, sum) => `Ordered ${n} · ${sum}`, bill: "Bill card",
     portion: (i) => `Portion ${i}`, split: "+ Another with different requests",
     addEnglish: "We'd like to add these, please.",
+    mustTry: "Must-try", loadingMore: "Loading…", picked: "Your picks:", ordered: "Ordered:",
+  },
+  ja: {
+    required: "必須", optional: "任意", pick: "選んでください",
+    search: "料理名・番号で検索", items: "品", cats: "カテゴリ", noResult: "見つかりません",
+    selected: "選択中", none: "まだ選んでいません", total: "小計", incomplete: "価格不明あり、合計は概算",
+    card: "注文カード", showWaiter: "店員さんに見せる", back: "戻って修正", close: "戻る",
+    placedBtn: "店員さんに伝えた", placedLine: (n, sum) => `注文済み ${n} 品 · ${sum}`, bill: "会計カード",
+    portion: (i) => `${i} つ目`, split: "+ 別の要望でもう一つ",
+    addEnglish: "We'd like to add these, please.",
+    mustTry: "名物", loadingMore: "整理中…", picked: "選んだ料理：", ordered: "注文済みの料理：",
+  },
+  ko: {
+    required: "필수", optional: "선택", pick: "골라 주세요",
+    search: "메뉴명 또는 번호 검색", items: "개", cats: "분류", noResult: "결과 없음",
+    selected: "선택함", none: "아직 선택하지 않았어요", total: "소계", incomplete: "가격 미확인 항목 있음",
+    card: "주문 카드", showWaiter: "직원에게 보여주기", back: "수정", close: "뒤로",
+    placedBtn: "직원이 받아 적음", placedLine: (n, sum) => `주문 ${n}개 · ${sum}`, bill: "계산 카드",
+    portion: (i) => `${i}번째`, split: "+ 다른 요청으로 하나 더",
+    addEnglish: "We'd like to add these, please.",
+    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", picked: "선택한 메뉴:", ordered: "주문한 메뉴:",
   },
 };
 
-let lang = (document.documentElement.lang || navigator.language || "zh").toLowerCase().startsWith("zh") ? "zh" : "en";
-let T = TEXT[lang];
+let lang = "zh";
+let T = TEXT.zh;
 
-/** 按用户语言切换界面文案；lang 为 BCP 47 代码 */
+/** 按用户语言切换界面文案；lang 为 BCP 47 代码，没有对应文案时用英文 */
 function setLanguage(code) {
-  lang = code.toLowerCase().startsWith("zh") ? "zh" : "en";
+  const base = String(code).toLowerCase().split("-")[0];
+  lang = TEXT[base] ? base : "en";
   T = TEXT[lang];
 }
+
+setLanguage(document.documentElement.lang || navigator.language || "zh");
 
 /* ========== 工具函数 ========== */
 
@@ -72,6 +97,7 @@ window.addEventListener("message", (event) => {
   switch (msg.method) {
     case "ui/notifications/tool-result": loadMenu(msg.params?.structuredContent); break;
     case "ui/notifications/tool-input": loadMenu(msg.params?.arguments); break;
+    case "ui/notifications/tool-input-partial": loadMenu(msg.params?.arguments, true); break;
     case "ui/notifications/host-context-changed": applyHostContext(msg.params); break;
   }
 }, { passive: true });
@@ -157,6 +183,7 @@ let query = "";
 let view = "menu";     // menu | card | bill
 const expanded = new Set();
 let loadedSignature = "";
+let streaming = false;  // 正在接收模型生成中的部分参数
 
 /** 菜单指纹：换菜单时清空选择，同一菜单刷新时恢复 */
 const menuKey = () => `${menu.restaurant}|${[...itemsByNumber.keys()].join(",")}`;
@@ -175,13 +202,37 @@ function restoreState() {
   } catch {}
 }
 
-/** 载入 show_menu 数据；同一份数据重复推送时忽略 */
-function loadMenu(data) {
-  if (!data || !Array.isArray(data.categories)) return;
+/** 部分参数：只保留已有编号和菜名的菜品，补齐缺省字段 */
+function completeItems(data) {
+  const categories = (Array.isArray(data.categories) ? data.categories : [])
+    .filter((c) => c && typeof c.name === "string")
+    .map((c) => ({
+      ...c,
+      items: (Array.isArray(c.items) ? c.items : [])
+        .filter((item) => item && typeof item.n === "number" && typeof item.name === "string")
+        .map((item) => ({ original: "", price: "", ...item })),
+    }));
+  return { restaurant: "", currency: "", ...data, categories };
+}
+
+/**
+ * 载入 show_menu 数据；同一份数据重复推送时忽略
+ * @param {object} data show_menu 参数
+ * @param {boolean} partial 模型仍在生成，数据不完整
+ */
+function loadMenu(data, partial = false) {
+  if (!data || (!partial && !Array.isArray(data.categories))) return;
+  if (partial && menu && !streaming) return;
   const signature = JSON.stringify(data);
   if (signature === loadedSignature) return;
   loadedSignature = signature;
+  if (partial) {
+    data = completeItems(data);
+    if (!data.categories.length) return;
+  }
 
+  const continuing = streaming;
+  streaming = partial;
   const previousKey = menu ? menuKey() : "";
   menu = data;
   if (menu.lang) setLanguage(menu.lang);
@@ -193,7 +244,7 @@ function loadMenu(data) {
     }
   }
 
-  if (menuKey() !== previousKey) {
+  if (!continuing && menuKey() !== previousKey) {
     cart = []; placed = []; round = 0; tab = 0;
     expanded.clear();
     restoreState();
@@ -220,7 +271,7 @@ function commit() {
 function formatMoney(value) {
   if (value == null || Number.isNaN(value)) return "?";
   try {
-    return new Intl.NumberFormat(lang === "zh" ? "zh-CN" : undefined, { style: "currency", currency: menu.currency }).format(value);
+    return new Intl.NumberFormat({ zh: "zh-CN", ja: "ja-JP", ko: "ko-KR" }[lang], { style: "currency", currency: menu.currency }).format(value);
   } catch {
     return `${value.toFixed(2)} ${menu.currency}`;
   }
@@ -297,12 +348,14 @@ function renderHeader() {
   const mustTry = [...itemsByNumber.values()].filter((item) => item.tag === "must");
 
   $("title").textContent = `📍 ${menu.restaurant}`;
-  $("sub").textContent = `${menu.currency} · ${menu.categories.length} ${T.cats} · ${itemCount} ${T.items}`;
-  $("intro").innerHTML =
-    (menu.cuisine ? `<div>🗺️ ${escapeHtml(menu.cuisine)}</div>` : "")
-    + (menu.intro ? `<div class="intro-text">${escapeHtml(menu.intro)}</div>` : "")
+  $("sub").innerHTML = [menu.currency, `${menu.categories.length} ${T.cats}`, `${itemCount} ${T.items}`]
+    .filter(Boolean).map(escapeHtml).join(" · ")
+    + (streaming ? ` · <span class="live">${T.loadingMore}</span>` : "");
+  const about = (menu.cuisine ? `<div class="cuisine">🗺️ ${escapeHtml(menu.cuisine)}</div>` : "")
+    + (menu.intro ? `<div class="intro-text">${escapeHtml(menu.intro)}</div>` : "");
+  $("intro").innerHTML = (about ? `<div class="intro-box">${about}</div>` : "")
     + (mustTry.length
-      ? `<div class="must">🏅 ${mustTry.map((item) => `<button data-jump="${item.n}">#${item.n} ${escapeHtml(item.name)}</button>`).join("")}</div>`
+      ? `<div class="must"><span class="must-label">🏅 ${T.mustTry}</span>${mustTry.map((item) => `<button data-jump="${item.n}">#${item.n} ${escapeHtml(item.name)}</button>`).join("")}</div>`
       : "");
   $("search").placeholder = T.search;
 
@@ -368,7 +421,7 @@ function itemRow(item) {
   const badge = item.tag === "must" ? "🏅 " : item.tag === "star" ? "⭐ " : "";
   const needsPick = cart.some((l) => l.n === item.n && missingChoice(l));
 
-  let html = `<div class="row" data-n="${item.n}">
+  let html = `<div class="row ${qty ? "picked" : ""}" data-n="${item.n}">
     <div class="num">${item.n}</div>
     <div class="main" data-toggle="${item.n}">
       <div class="name-row"><span class="name">${badge}${escapeHtml(item.name)}</span><span class="price">${escapeHtml(item.price)}</span></div>
@@ -430,7 +483,8 @@ function renderCard() {
   const lines = mergeLines(isBill ? placed : cart);
 
   $("waiter").innerHTML = isBill ? billCardHtml() : orderCardHtml(lines);
-  $("confirm").innerHTML = confirmTableHtml(lines, totals(isBill ? placed : cart));
+  $("confirm").innerHTML = `<div class="confirm-title">${isBill ? T.ordered : T.picked}</div>`
+    + confirmTableHtml(lines, totals(isBill ? placed : cart));
   $("topBack").textContent = `‹ ${isBill ? T.close : T.back}`;
   $("topLabel").textContent = isBill ? T.bill : T.showWaiter;
   $("actions").classList.toggle("hidden", isBill);
@@ -463,7 +517,7 @@ function confirmTableHtml(lines, t) {
   let html = `<table>`;
   for (const line of lines) {
     const item = itemsByNumber.get(line.n);
-    const extra = picksOf(line, item).map((p) => p.label).join(lang === "zh" ? "、" : ", ");
+    const extra = picksOf(line, item).map((p) => p.label).join(lang === "zh" || lang === "ja" ? "、" : ", ");
     const price = typeof item.value === "number" ? formatMoney(item.value * line.qty) : escapeHtml(item.price);
     html += `<tr><td>${item.n}</td><td>${escapeHtml(item.name)}${extra ? `<div class="orig">${escapeHtml(extra)}</div>` : ""}</td>`
       + `<td class="r">×${line.qty}</td><td class="r">${price}</td></tr>`;
@@ -599,8 +653,13 @@ $("search").addEventListener("input", (event) => {
   render();
 });
 
-// ChatGPT 扩展接口：组件加载时数据已就绪的情况
-try { if (window.openai?.toolOutput) loadMenu(window.openai.toolOutput); } catch {}
-window.addEventListener("openai:set_globals", () => {
-  try { loadMenu(window.openai?.toolOutput); } catch {}
-});
+// ChatGPT 扩展接口：toolOutput 为完整结果，toolInput 在生成过程中可能是部分参数
+function loadFromOpenAi() {
+  try {
+    const host = window.openai;
+    if (host?.toolOutput) loadMenu(host.toolOutput);
+    else if (host?.toolInput) loadMenu(host.toolInput, true);
+  } catch {}
+}
+loadFromOpenAi();
+window.addEventListener("openai:set_globals", loadFromOpenAi);

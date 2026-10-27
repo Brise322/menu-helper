@@ -5,7 +5,7 @@ import { INSTRUCTIONS, toolResultText } from "./instructions.js";
 import { menuShape } from "./schema.js";
 
 // 组件 URI 是宿主的缓存键，组件或参数有不兼容改动时递增版本号
-export const WIDGET_URI = "ui://menu-helper/menu-v4.html";
+export const WIDGET_URI = "ui://menu-helper/menu-v5.html";
 export const WIDGET_MIME = "text/html;profile=mcp-app";
 
 /**

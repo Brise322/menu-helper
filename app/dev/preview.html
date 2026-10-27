@@ -16,6 +16,21 @@ window.addEventListener("message", async (e) => {
     reply({ protocolVersion: "2026-01-26", hostContext: { theme: new URLSearchParams(location.search).get("theme") || "light" } });
   } else if (m.method === "ui/notifications/initialized") {
     const data = await (await fetch("sample.json")).json();
+    if (new URLSearchParams(location.search).has("stream")) {
+      // 模拟模型逐步生成参数：每次多推几道菜
+      const all = data.categories.flatMap((c, ci) => c.items.map((item) => [ci, item]));
+      for (let k = 4; k < all.length; k += 12) {
+        const categories = [];
+        for (const [ci, item] of all.slice(0, k)) {
+          const c = data.categories[ci];
+          if (!categories[ci]) categories[ci] = { ...c, items: [] };
+          categories[ci].items.push(item);
+        }
+        const partial = { ...data, categories: categories.filter(Boolean), card: undefined, requests: undefined };
+        f.contentWindow.postMessage({ jsonrpc: "2.0", method: "ui/notifications/tool-input-partial", params: { arguments: partial } }, "*");
+        await new Promise((r) => setTimeout(r, 150));
+      }
+    }
     f.contentWindow.postMessage({ jsonrpc: "2.0", method: "ui/notifications/tool-result", params: { structuredContent: data } }, "*");
   } else if (m.method === "ui/notifications/size-changed") {
     f.style.height = m.params.height + "px";
