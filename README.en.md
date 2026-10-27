@@ -16,7 +16,7 @@ I wrote this prompt from my own experience eating out. The goal is simple: **sna
 
 It's for international students, travelers, and anyone staring blankly at a menu. No app, no sign-up. Works in ChatGPT, Gemini, Claude, or any AI that can see images.
 
-## How it works
+## How to use
 
 **① Send a photo of the menu**
 
@@ -72,7 +72,7 @@ Below the card is a phrase table: call the waiter, water, not spicy, allergies, 
 - Snap the receipt: it is translated line by line and checked against your order.
 - More pages: keep sending photos and numbering continues. A different restaurant starts over.
 
-## Setup
+## How to install
 
 **Quickest:** copy all of [`prompt.md`](prompt.md), paste it into a new ChatGPT / Gemini chat, then send a menu photo.
 
