@@ -60,7 +60,7 @@
               "description": "Greek menu photo, no text",
               "prompt": "帮我看看这个菜单",
               "tools_triggered": "show_menu",
-              "expected_behavior": "show_menu is called with all 17 items in 5 categories. The widget header shows the cuisine (Greek, Crete), a short intro and 3–5 must-try dishes as tappable chips, then category tabs; Moussaka is described as Greek lasagna; Kokoretsi is flagged ⚠️ as offal.",
+              "expected_behavior": "show_menu is called with all 17 items in 5 categories. The widget header shows the cuisine (Greek, Crete), a short intro and 3–5 must-try dishes as tappable chips, then category tabs; Moussaka is explained in familiar terms; Kokoretsi is translated as grilled offal and flagged ⚠️.",
               "file_attachment_urls": [
                 "https://raw.githubusercontent.com/Brise322/menu-helper/main/review/menu_gr.png"
               ]
