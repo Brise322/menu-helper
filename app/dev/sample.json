@@ -21,7 +21,6 @@
      "original": "Soupe à l'oignon gratinée",
      "price": "11,00 €",
      "value": 11,
-     "tag": "must",
      "desc": "法国国民汤，面包+奶酪焗"
     },
     {
@@ -30,7 +29,6 @@
      "original": "Escargots de Bourgogne (6)",
      "price": "12,50 €",
      "value": 12.5,
-     "tag": "must",
      "desc": "勃艮第招牌，蒜香黄油焗"
     },
     {
@@ -39,7 +37,6 @@
      "original": "Foie gras de canard maison",
      "price": "20,50 €",
      "value": 20.5,
-     "tag": "must",
      "desc": "西南法特产，配吐司"
     },
     {
@@ -161,7 +158,6 @@
      "original": "Bœuf bourguignon",
      "price": "24,00 €",
      "value": 24,
-     "tag": "must",
      "desc": "勃艮第红酒慢炖牛肉"
     },
     {
@@ -170,7 +166,6 @@
      "original": "Confit de canard",
      "price": "24,50 €",
      "value": 24.5,
-     "tag": "must",
      "desc": "西南法招牌，鸭油慢煮后煎脆"
     },
     {
@@ -281,8 +276,7 @@
      "name": "焦糖布丁",
      "original": "Crème brûlée",
      "price": "9,00 €",
-     "value": 9,
-     "tag": "must"
+     "value": 9
     },
     {
      "n": 24,
@@ -1464,5 +1458,13 @@
   "服务费已含 (service compris)"
  ],
  "cuisine": "法国菜 · 巴黎传统小酒馆",
- "intro": "典型巴黎 brasserie：一人一道主菜，前菜和甜点可分享。主菜 19–42 €，服务费已含。"
+ "intro": "典型巴黎 brasserie：一人一道主菜，前菜和甜点可分享。主菜 19–42 €，服务费已含。",
+ "mustTry": [
+  2,
+  3,
+  4,
+  15,
+  16
+ ],
+ "tip": "有过敏忌口、想问哪道菜或要推荐，都可以告诉我"
 }

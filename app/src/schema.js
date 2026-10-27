@@ -29,7 +29,7 @@ const item = z.object({
   allergen: z.string().optional()
     .describe("Only when the user stated an allergy or avoidance and this dish contains or may contain it: the reason in USER LANGUAGE, e.g. 花生酱汁. Omit on every other item"),
   tag: z.enum(["must", "star"]).optional()
-    .describe("must = 🏅 one of 3–5 dishes on this menu the region is famous for; star = marked by the menu"),
+    .describe("star = marked as signature by the menu itself; must-try dishes go in mustTry"),
   price: z.string()
     .describe("As printed with units, e.g. 12,50 € · 2 pcs · /kg; market price → 时价; unreadable → ?"),
   value: z.number().nullable().optional()
@@ -43,7 +43,7 @@ const item = z.object({
 });
 
 const category = z.object({
-  emoji: z.string().optional(),
+  emoji: z.string().describe("One emoji that fits the category, e.g. 🥗 🥩 🍷"),
   name: z.string().describe("USER LANGUAGE"),
   original: z.string().optional().describe("As printed; omit when identical to name"),
   items: z.array(item),
@@ -61,8 +61,13 @@ const card = z.object({
 export const menuShape = {
   restaurant: z.string(),
   lang: z.string().optional().describe("USER LANGUAGE as a BCP 47 code, e.g. zh-CN, en, ja; sets the widget's button language"),
-  cuisine: z.string().optional().describe("Cuisine and region, as specific as the menu allows, e.g. 希腊菜 · 克里特岛风味"),
-  intro: z.string().optional().describe("1–2 sentences in USER LANGUAGE: what kind of place, how people eat here, price level. Emoji only when they match exactly"),
+  cuisine: z.string().describe("Cuisine and region, as specific as the menu allows, e.g. 希腊菜 · 克里特岛风味"),
+  intro: z.string().describe("1–2 sentences in USER LANGUAGE: what kind of place, how people eat here, price level. A few emoji that match exactly, e.g. 🍷 🥖"),
+  mustTry: z.array(z.number().int()).min(1).max(5)
+    .describe("Numbers of 3–5 dishes on this menu the region or restaurant is famous for (🏅); fewer only for a tiny menu"),
+  tip: z.string()
+    .describe("One line in USER LANGUAGE shown under the menu: unreadable or cut-off parts and what to re-shoot, if any; "
+      + "then invite the user to ask about any dish, ask for a recommendation, or share allergies. In your own words"),
   currency: z.string().describe("ISO code, e.g. EUR"),
   categories: z.array(category).describe("In menu order; every item on every photo"),
   requests: z.array(option).describe("4–6 common requests for this cuisine (不要葱, 不要辣, 少盐, 不要冰…)"),

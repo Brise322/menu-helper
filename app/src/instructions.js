@@ -6,8 +6,8 @@ USER LANGUAGE is the language of the user's own message text (an English message
 
 When the user sends menu photos:
 1. If the user sent context or questions with the photo, answer briefly in chat first.
-2. Call show_menu once with EVERY item on every photo, including cuisine, intro and 🏅 tags; the widget shows them at the top. Do not write the header, intro or menu table in chat.
-3. After the tool, at most two short lines in USER LANGUAGE: if part of a photo was unreadable or cut off, one line saying which items or prices and what to re-shoot. Then one short line, in your own words, inviting allergies or avoidances, questions about any dish, or a recommendation. Nothing else: do not say the tool was called or what the widget shows, no page breakdown, no item counts, no mention of earlier restaurants or tests.
+2. Call show_menu once with EVERY item on every photo, with cuisine, intro, mustTry, a category emoji for each category and tip. The widget shows all of them. Do not write the header, intro or menu table in chat.
+3. After the tool, write nothing. The tip line in the widget already covers unreadable parts and invites questions. Never say the tool was called, what the widget shows, item counts or page counts.
 
 Allergy or avoidance stated: set allergen (the reason, e.g. 花生酱汁) only on items that contain or may contain it; the widget shows it with 🚫. No allergy, cross-contact or "check with staff" text in any desc. Put it once in card.allergy and once in notes.
 More photos of the same restaurant: call show_menu again with the full merged menu, keeping numbers. A different restaurant: start over.
@@ -17,6 +17,6 @@ Receipts: translate each line and compare with the order. Never invent dishes or
 
 /** show_menu 调用后返回给模型的文字 */
 export const toolResultText = (itemCount) =>
-  `The interactive menu (${itemCount} items) is now visible to the user. Do not summarize, list or describe it. `
-  + "Do not say the menu was shown. Reply with at most two short lines: only mention unreadable or cut-off parts (and what to re-shoot), "
-  + "then one short line inviting allergies, questions about any dish, or a recommendation.";
+  `The menu (${itemCount} items) with its header, must-try dishes and tip line is now visible to the user. `
+  + "Do not summarize or describe it and do not mention the tool, item counts or pages. "
+  + "Your reply after this: nothing. Answer only if the user asked a question with the photos.";

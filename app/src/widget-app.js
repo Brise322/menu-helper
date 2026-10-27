@@ -11,7 +11,7 @@ const TEXT = {
     placedBtn: "服务员已记下", placedLine: (n, sum) => `已下单 ${n} 项 · ${sum}`, bill: "结账卡片",
     portion: (i) => `第 ${i} 份`, split: "+ 另一份不同要求",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "必尝", loadingMore: "正在整理…", picked: "你勾选的菜品有：", ordered: "已点的菜品：",
+    mustTry: "必尝", loadingMore: "正在整理…", picked: "你勾选的菜品有：", ordered: "已点的菜品：", priceNote: "金额仅供参考，具体以菜单和账单为准",
   },
   en: {
     required: "Required", optional: "Optional", pick: "Choose",
@@ -21,7 +21,7 @@ const TEXT = {
     placedBtn: "Waiter has it", placedLine: (n, sum) => `Ordered ${n} · ${sum}`, bill: "Bill card",
     portion: (i) => `Portion ${i}`, split: "+ Another with different requests",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "Must-try", loadingMore: "Loading…", picked: "Your picks:", ordered: "Ordered:",
+    mustTry: "Must-try", loadingMore: "Loading…", picked: "Your picks:", ordered: "Ordered:", priceNote: "Amounts are estimates; the menu and bill prevail.",
   },
   ja: {
     required: "必須", optional: "任意", pick: "選んでください",
@@ -31,7 +31,7 @@ const TEXT = {
     placedBtn: "店員さんに伝えた", placedLine: (n, sum) => `注文済み ${n} 品 · ${sum}`, bill: "会計カード",
     portion: (i) => `${i} つ目`, split: "+ 別の要望でもう一つ",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "名物", loadingMore: "整理中…", picked: "選んだ料理：", ordered: "注文済みの料理：",
+    mustTry: "名物", loadingMore: "整理中…", picked: "選んだ料理：", ordered: "注文済みの料理：", priceNote: "金額は目安です。メニューと会計を優先してください。",
   },
   ko: {
     required: "필수", optional: "선택", pick: "골라 주세요",
@@ -41,7 +41,7 @@ const TEXT = {
     placedBtn: "직원이 받아 적음", placedLine: (n, sum) => `주문 ${n}개 · ${sum}`, bill: "계산 카드",
     portion: (i) => `${i}번째`, split: "+ 다른 요청으로 하나 더",
     addEnglish: "We'd like to add these, please.",
-    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", picked: "선택한 메뉴:", ordered: "주문한 메뉴:",
+    mustTry: "꼭 먹어볼 것", loadingMore: "정리 중…", picked: "선택한 메뉴:", ordered: "주문한 메뉴:", priceNote: "금액은 참고용이며 메뉴판과 계산서가 기준입니다.",
   },
 };
 
@@ -343,9 +343,17 @@ function renderMenu() {
   renderBar();
 }
 
+/** 必尝菜：优先 mustTry 编号，兼容旧数据的 tag: "must" */
+function mustTryItems() {
+  if (Array.isArray(menu.mustTry)) return menu.mustTry.map((n) => itemsByNumber.get(n)).filter(Boolean);
+  return [...itemsByNumber.values()].filter((item) => item.tag === "must");
+}
+
+const isMustTry = (item) => (Array.isArray(menu.mustTry) ? menu.mustTry.includes(item.n) : item.tag === "must");
+
 function renderHeader() {
   const itemCount = itemsByNumber.size;
-  const mustTry = [...itemsByNumber.values()].filter((item) => item.tag === "must");
+  const mustTry = mustTryItems();
 
   $("title").textContent = `📍 ${menu.restaurant}`;
   $("sub").innerHTML = [menu.currency, `${menu.categories.length} ${T.cats}`, `${itemCount} ${T.items}`]
@@ -356,7 +364,8 @@ function renderHeader() {
   $("intro").innerHTML = (about ? `<div class="intro-box">${about}</div>` : "")
     + (mustTry.length
       ? `<div class="must"><span class="must-label">🏅 ${T.mustTry}</span>${mustTry.map((item) => `<button data-jump="${item.n}">#${item.n} ${escapeHtml(item.name)}</button>`).join("")}</div>`
-      : "");
+      : "")
+    + (menu.tip ? `<div class="tip">💬 ${escapeHtml(menu.tip)}</div>` : "");
   $("search").placeholder = T.search;
 
   if (placed.length) {
@@ -418,7 +427,7 @@ function renderList() {
 
 function itemRow(item) {
   const qty = quantityOf(item.n);
-  const badge = item.tag === "must" ? "🏅 " : item.tag === "star" ? "⭐ " : "";
+  const badge = isMustTry(item) ? "🏅 " : item.tag === "star" ? "⭐ " : "";
   const needsPick = cart.some((l) => l.n === item.n && missingChoice(l));
 
   let html = `<div class="row ${qty ? "picked" : ""}" data-n="${item.n}">
@@ -525,6 +534,7 @@ function confirmTableHtml(lines, t) {
   }
   html += `<tr class="tot"><td></td><td>${T.total}</td><td class="r">${t.count}</td><td class="r">${formatMoney(t.sum)}</td></tr></table>`;
   if (t.unknown) html += `<div class="notes">${T.incomplete}</div>`;
+  html += `<div class="notes">${T.priceNote}</div>`;
   if (menu.notes?.length) html += `<div class="notes">${menu.notes.map(escapeHtml).join("<br>")}</div>`;
   return html;
 }
