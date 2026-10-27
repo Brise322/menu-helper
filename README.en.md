@@ -10,6 +10,7 @@ Works with ChatGPT, Gemini, Claude, or any AI that can read images.
 
 Eating abroad, I kept running into the same things:
 - I knew every word on the menu and still couldn't tell what the dish was.
+- I had no idea which dishes were the local specialties worth ordering.
 - A translation app gave me English that didn't match the original, so I couldn't point to it.
 - I still had to look up "no onions", "medium rare" and "the bill, please" one at a time.
 
