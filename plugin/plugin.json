@@ -45,7 +45,7 @@
         "termsOfServiceURL": "https://github.com/Brise322/menu-helper/blob/main/TERMS.md"
       },
       "publication": {
-        "release_notes": "Interactive menu with + / −, checks for printed required choices, optional doneness and requests, full-screen waiter card, add-on and bill cards.",
+        "release_notes": "Menu-v4 adds cuisine, introduction and tappable must-try chips; widget labels follow the user language. Includes quantity controls, optional doneness, printed required-choice checks, full-screen waiter, add-on and bill cards. Reviewer test results and known limitations are documented in review/test-results.md.",
         "translations": {
           "zh-CN": {
             "subtitle": "看不懂的菜单，拍一下就能点",

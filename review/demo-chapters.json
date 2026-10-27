@@ -1,0 +1,122 @@
+[
+  {
+    "seconds": 0.0,
+    "label": "Menu v4: cuisine, introduction and tappable must-try chips"
+  },
+  {
+    "seconds": 4.34,
+    "label": "Tap a must-try chip to jump to its dish"
+  },
+  {
+    "seconds": 7.86,
+    "label": "Switch menu categories"
+  },
+  {
+    "seconds": 10.16,
+    "label": "Search translated dish names across the menu"
+  },
+  {
+    "seconds": 13.69,
+    "label": "Tap +: one dish, EUR 16"
+  },
+  {
+    "seconds": 15.98,
+    "label": "Tap + again: two portions, EUR 32"
+  },
+  {
+    "seconds": 18.29,
+    "label": "Tap minus: one portion, EUR 16"
+  },
+  {
+    "seconds": 20.59,
+    "label": "Steak doneness is optional; leave it unselected"
+  },
+  {
+    "seconds": 24.04,
+    "label": "Waiter card opens without a doneness choice"
+  },
+  {
+    "seconds": 28.39,
+    "label": "English question: widget buttons and confirmation stay in English"
+  },
+  {
+    "seconds": 32.73,
+    "label": "Desktop full view: card heading stays below the host toolbar"
+  },
+  {
+    "seconds": 37.07,
+    "label": "390px web view: card top is visible; real phone status bar not tested"
+  },
+  {
+    "seconds": 41.43,
+    "label": "Separate printed-choice fixture: optional steak doneness"
+  },
+  {
+    "seconds": 43.64,
+    "label": "Choose 三分熟 (Rare)"
+  },
+  {
+    "seconds": 45.9,
+    "label": "French waiter card includes Saignant"
+  },
+  {
+    "seconds": 50.26,
+    "label": "Full French card: Saignant is visible"
+  },
+  {
+    "seconds": 53.79,
+    "label": "Printed side choice: fries or salad is required"
+  },
+  {
+    "seconds": 56.06,
+    "label": "Missing the printed required side blocks the card"
+  },
+  {
+    "seconds": 60.41,
+    "label": "Choose the required fries side"
+  },
+  {
+    "seconds": 62.72,
+    "label": "Card succeeds after side selection: Saignant and fries"
+  },
+  {
+    "seconds": 67.08,
+    "label": "Tap 服务员已记下: the first two dishes are now ordered"
+  },
+  {
+    "seconds": 69.38,
+    "label": "Add a dessert after the waiter has taken the first order"
+  },
+  {
+    "seconds": 71.68,
+    "label": "Add-on card contains only the new dessert"
+  },
+  {
+    "seconds": 76.06,
+    "label": "Bill card: all three dishes, total EUR 56"
+  },
+  {
+    "seconds": 80.48,
+    "label": "Fictional peanut-allergy scenario: Japanese warning on the waiter card"
+  },
+  {
+    "seconds": 84.8,
+    "label": "Known issue: unflagged dishes still contain allergy caution text"
+  },
+  {
+    "seconds": 89.45,
+    "label": "Peanut scenario: actual risk marks and reasons (see test report)"
+  },
+  {
+    "seconds": 93.83,
+    "label": "Drinks have no peanut flags; unflagged-food text issue is in the report"
+  },
+  {
+    "seconds": 97.28,
+    "label": "Negative case: no menu photo, no fabricated dishes or prices"
+  },
+  {
+    "seconds": 100.75,
+    "label": "Negative case: refuses a peanut-safety guarantee; no show_menu"
+  }
+]
