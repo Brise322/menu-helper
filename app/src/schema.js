@@ -18,13 +18,13 @@ const item = z.object({
   code: z.string().optional()
     .describe("Number as printed on the menu, only if printed"),
   name: z.string()
-    .describe("Natural translation in USER LANGUAGE; check it against the original"),
+    .describe("Natural translation in USER LANGUAGE of what the dish is; must agree with desc. Never guess from a similar-looking word; unsure → transliterate"),
   original: z.string()
     .describe("As printed, without a printed option list (\"Burger (frites ou salade)\" → \"Burger\"); the options go in options"),
   desc: z.string().optional()
     .describe("What a tourist needs to decide, ≤20 Chinese chars / 12 English words. Add what the name does not say; never restate it. "
-      + "Empty when obvious (fries, cola). Unfamiliar: compare with something familiar. "
-      + "Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 + reason only when it contains or may contain a stated allergen. "
+      + "Empty when obvious (fries, cola). Unfamiliar dish: compare with something familiar (Okonomiyaki → 像日式蔬菜煎饼). "
+      + "Start with ⚠️ for offal, raw, strong smell, spirits ≥30%, sharing-size; 🚫 + reason only when it contains or may contain a stated allergen; no allergy, cross-contact or ask-the-staff text on any other item. "
       + "🌶1–3 only when spicy. 「推测」 only when unsure."),
   tag: z.enum(["must", "star"]).optional()
     .describe("must = 🏅 one of 3–5 dishes on this menu the region is famous for; star = marked by the menu"),
