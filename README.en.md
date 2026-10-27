@@ -8,6 +8,8 @@
 
 Abroad, the awkward part isn't speaking. It's the first minute with the menu.
 
+A menu in an unfamiliar language is a headache: unknown words everywhere, and even after looking a few up you still can't piece together what the dish is.
+
 You may know every word on the page and still have no idea what will arrive. Is Bruschetta bread or salad? Does ねぎま have onions in it? Language level doesn't help much. Even a perfect IELTS score won't tell you what *kokoretsi* is. Honestly, even a menu in your own language can stump you the first time you see "husband and wife lung slices".
 
 So the waiter stands there, you point at a line and say "this one", and find out what you ordered when it lands on the table.
